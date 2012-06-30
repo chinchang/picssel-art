@@ -8,7 +8,7 @@ body{
 	background: #EEE -ms-radial-gradient(50% 70%,cover,rgba(255, 255, 255, 0.65) 0,rgba(255, 255, 255, 0) 82%);
 	font-family: Arial;
 	min-height: 600px;
-	overflow: hidden;
+	overflow-x: hidden;
 	font-size: 12px;
 }
 
@@ -91,7 +91,7 @@ pre{
 	padding: 8px;
 	margin: 0 4px 8px;
 	width: 100px;
-	min-height: 70px;
+	height: 70px;
 	display: inline-block;
 	position: relative;
 	box-sizing: border-box;
@@ -187,5 +187,5 @@ input {
 .copy-button {
 	position: absolute;
 	bottom: 5px;
-	right: 5px;
+	right: 20px;
 }
