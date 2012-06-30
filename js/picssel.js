@@ -21,7 +21,7 @@ states = [];
 
 undo_size = 15;
 
-canvas_size = pixel_size * 10;
+canvas_size = pixel_size * 20;
 
 canvas_size_range = {
   min: 50,
@@ -82,14 +82,32 @@ canvasResize = function(e) {
 };
 
 undo = function() {
-  var last_point, last_state, _ref;
-  last_point = pixels.pop();
+  var clear, last_point, last_state, p, pos, _len;
   last_state = states.pop();
-  if (states) {
-    return drawPixel(last_state.x, last_state.y, last_state.old_color, (_ref = last_state.old_color === 'clear') != null ? _ref : {
-      "true": false
+  if (!last_state) return;
+  clear = false;
+  if (last_state.new_color === 'clear') {
+    pixels.push({
+      x: last_state.x,
+      y: last_state.y,
+      color: last_state.old_color
     });
+  } else {
+    for (pos = 0, _len = pixels.length; pos < _len; pos++) {
+      p = pixels[pos];
+      if (p.x === last_state.x && p.y === last_state.y) {
+        last_point = pixels.splice(pos, 1)[0];
+        break;
+      }
+    }
+    if (last_state.old_color === 'clear') {
+      clear = true;
+    } else {
+      last_point.color = last_state.old_color;
+      pixels.push(last_point);
+    }
   }
+  return drawPixel(last_state.x, last_state.y, last_state.old_color, clear);
 };
 
 clearCanvas = function() {
@@ -128,24 +146,22 @@ onClick = function(e) {
         break;
       }
     }
-    return;
   } else {
     drawPixel(cx, cy, color);
-  }
-  addState(cx, cy, pixel_current_color, color);
-  for (pos = 0, _len2 = pixels.length; pos < _len2; pos++) {
-    p = pixels[pos];
-    if (p.x === cx && p.y === cy) {
-      pixels.splice(pos, 1);
-      break;
+    addState(cx, cy, pixel_current_color, color);
+    for (pos = 0, _len2 = pixels.length; pos < _len2; pos++) {
+      p = pixels[pos];
+      if (p.x === cx && p.y === cy) {
+        pixels.splice(pos, 1);
+        break;
+      }
     }
+    return pixels.push({
+      x: cx,
+      y: cy,
+      color: color
+    });
   }
-  pixels.push({
-    x: cx,
-    y: cy,
-    color: color
-  });
-  if (cx === 0 && cy === 0) return origin_color = color;
 };
 
 /*
@@ -160,10 +176,12 @@ drawPixel = function(x, y, color, clear) {
   if (color == null) color = '#000';
   if (clear == null) clear = false;
   if (clear) {
-    return ctx.clearRect(x, y, pixel_size, pixel_size);
+    ctx.clearRect(x, y, pixel_size, pixel_size);
+    if (x === 0 && y === 0) return origin_color = 'transparent';
   } else {
     ctx.fillStyle = color;
-    return ctx.fillRect(x, y, pixel_size, pixel_size);
+    ctx.fillRect(x, y, pixel_size, pixel_size);
+    if (x === 0 && y === 0) return origin_color = color;
   }
 };
 

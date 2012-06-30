@@ -14,7 +14,7 @@ pixel_size = 8
 pixels = []
 states = []
 undo_size = 15
-canvas_size = pixel_size * 10
+canvas_size = pixel_size * 20
 canvas_size_range = 
 	min: 50
 	max: 200
@@ -74,10 +74,29 @@ canvasResize = (e) ->
 	clearCanvas()
 
 undo = ->
-	last_point = pixels.pop()
+	# get the last state
 	last_state = states.pop()
-	if states
-		drawPixel last_state.x, last_state.y, last_state.old_color, last_state.old_color is 'clear' ? true : false
+	return if not last_state
+	clear = false
+	# if change was color -> clear, add a new pixel to the array
+	if last_state.new_color is 'clear'
+		pixels.push {x: last_state.x, y: last_state.y, color: last_state.old_color}
+	else
+		# pop the last_state pixel
+		for p, pos in pixels
+			if(p.x is last_state.x and p.y is last_state.y)
+				last_point = pixels.splice(pos, 1)[0]
+				break
+		# if change was clear -> color, simply pop a pixel
+		if last_state.old_color is 'clear'
+			clear = true
+		# if change was color -> color, replace the last pixel color
+		else
+			last_point.color = last_state.old_color
+			pixels.push last_point
+
+	drawPixel last_state.x, last_state.y, last_state.old_color, clear
+	
 
 clearCanvas = ->
 	ctx.clearRect 0, 0, $canvas.attr('width'), $canvas.attr('width')
@@ -103,6 +122,7 @@ onClick = (e) ->
 	if e.shiftKey
 		rgb = getRGB pixel_current_color
 		$color_input.get(0).color.fromRGB rgb[0]/255, rgb[1]/255, rgb[2]/255 if rgb
+		return
 	else if e.ctrlKey or e.metaKey
 		return if pixel_current_color is 'clear'
 		drawPixel cx, cy, null, true
@@ -115,17 +135,15 @@ onClick = (e) ->
 		return
 	else 
 		drawPixel cx, cy, color
+		# add the new state
+		addState cx, cy, pixel_current_color, color
 
-	# add the new state
-	addState cx, cy, pixel_current_color, color
-
-	# Dump it somewhere for processing, replace if coordinates already dumped
-	for p, pos in pixels
-		if(p.x is cx and p.y is cy)
-			pixels.splice pos, 1
-			break
-	pixels.push({x: cx, y: cy, color: color})
-	if cx is 0 and cy is 0 then origin_color = color
+		# Dump it somewhere for processing, replace if coordinates already dumped
+		for p, pos in pixels
+			if(p.x is cx and p.y is cy)
+				pixels.splice pos, 1
+				break
+		pixels.push {x: cx, y: cy, color: color}
 
 ###
 function drawPixel
@@ -137,9 +155,11 @@ function drawPixel
 drawPixel = (x, y, color = '#000', clear = false) ->
 	if clear
 		ctx.clearRect x, y, pixel_size, pixel_size
+		if x is 0 and y is 0 then origin_color = 'transparent'
 	else
 		ctx.fillStyle = color
 		ctx.fillRect x, y, pixel_size, pixel_size
+		if x is 0 and y is 0 then origin_color = color
 
 
 generateCode = ->
