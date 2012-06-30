@@ -214,15 +214,12 @@ input {
 	right: 20px;
 }
 
-#art {
-	width: 168px;
-	height: 168px;
-	margin: 0 auto;
-}
+#screenshot { display: none; }
 
 #art {
 	width: 168px;
 	height: 168px;
+	margin: 0 auto;
 }
 
 #art div{
