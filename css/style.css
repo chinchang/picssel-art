@@ -23,7 +23,7 @@ input{
 
 p {	font-size: 12px; }
 
-#main-container{
+#main-container {
 	width: 900px;
 	margin:0 auto;
 	background: #FFF;
@@ -35,6 +35,13 @@ p {	font-size: 12px; }
 	-webkit-box-shadow: 0 1px 0px white;
 	-moz-box-shadow: 0 1px 0px white;
 }
+#top-container, #bottom-container {
+	width: 900px;
+	margin: 5px auto;
+	color: #888;
+}
+
+#bottom-container { text-align: center; }
 
 #main-container .box{
 	width: 450px;
@@ -211,6 +218,11 @@ input {
 	width: 168px;
 	height: 168px;
 	margin: 0 auto;
+}
+
+#art {
+	width: 168px;
+	height: 168px;
 }
 
 #art div{
@@ -462,5 +474,23 @@ input {
 	72px 96px rgb(235, 235, 235),
 	80px 96px rgb(235, 235, 235),
 	88px 96px rgb(235, 235, 235),
-	96px 96px rgb(235, 235, 235);
+	96px 96px rgb(235, 235, 235),
+	16px 152px rgb(242, 242, 242),
+	24px 152px rgb(242, 242, 242),
+	32px 152px rgb(242, 242, 242),
+	40px 152px rgb(242, 242, 242),
+	48px 152px rgb(242, 242, 242),
+	144px 152px rgb(242, 242, 242),
+	152px 152px rgb(242, 242, 242),
+	136px 152px rgb(242, 242, 242),
+	120px 152px rgb(242, 242, 242),
+	128px 152px rgb(242, 242, 242),
+	112px 152px rgb(242, 242, 242),
+	56px 152px rgb(242, 242, 242),
+	64px 152px rgb(242, 242, 242),
+	72px 152px rgb(242, 242, 242),
+	104px 152px rgb(242, 242, 242),
+	96px 152px rgb(242, 242, 242),
+	88px 152px rgb(242, 242, 242),
+	80px 152px rgb(242, 242, 242);
 }
