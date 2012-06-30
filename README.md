@@ -1,5 +1,9 @@
-piCSSel-art: Create pixel art using only CSS
+piCSSel-art
 =======
+Create pixel art using only CSS
+--------
+
+
 
 What is it?
 -----------
