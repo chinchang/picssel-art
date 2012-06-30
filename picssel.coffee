@@ -5,7 +5,6 @@ version 1.0
 Author	Kushagra Gour a.k.a. chinchang (chinchang457@gmail.com)
 Licensed under The MIT License
 
-Description:
 ###
 
 $canvas = null
@@ -31,12 +30,32 @@ $(->
 	# initialize zclip
 	$('a#copy-html').zclip({
         path: 'js/ZeroClipboard.swf',
-        copy: 'sdsfsf'
+        copy: ->
+        	return $('#html-code').text()
+        afterCopy: ->
+        	$(this).text('Copied');
+        	# reset the button text after sometime
+        	(($button) ->
+        		setTimeout(->
+        			$button.text('Copy')
+        		, 800)
+        	)($(this))
+        	
     })
 
-	$('#copy-css').zclip({
+    $('a#copy-css').zclip({
         path: 'js/ZeroClipboard.swf',
-        copy: 'sdsdsds'
+        copy: ->
+        	return $('#css-code').text()
+        afterCopy: ->
+        	$(this).text('Copied');
+        	# reset the button text after sometime
+        	(($button) ->
+        		setTimeout(->
+        			$button.text('Copy')
+        		, 800)
+        	)($(this))
+        	
     })
 
 	$canvas.bind 'click', onClick
@@ -67,8 +86,8 @@ clearCanvas = ->
 	$('#css-code').html ''
 
 onClick = (e) ->
-	cx = e.clientX - $canvas.offset().left
-	cy = e.clientY - $canvas.offset().top
+	cx = e.clientX - $canvas.offset().left + document.body.scrollLeft
+	cy = e.clientY - $canvas.offset().top + document.body.scrollTop
 
 	# get the pixel clicked
 	cx = ~~(cx/10) * 10
@@ -126,6 +145,11 @@ drawPixel = (x, y, color = '#000', clear = false) ->
 generateCode = ->
 	code_prefix = """
 				#art {
+					width: #{canvas_size}px;
+					height: #{canvas_size}px;
+				}
+				
+				#art div{
 					width: #{pixel_length}px;
 					height: #{pixel_length}px;
 					background: #{origin_color};

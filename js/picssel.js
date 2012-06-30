@@ -43,16 +43,25 @@ $(function() {
     },
     afterCopy: function() {
       $(this).text('Copied');
-      return setTimeout(function() {
-        console.log(this);
-        return $(this).text('Copy');
-      }, 600);
+      return (function($button) {
+        return setTimeout(function() {
+          return $button.text('Copy');
+        }, 800);
+      })($(this));
     }
   });
-  $('#copy-css').zclip({
+  $('a#copy-css').zclip({
     path: 'js/ZeroClipboard.swf',
     copy: function() {
       return $('#css-code').text();
+    },
+    afterCopy: function() {
+      $(this).text('Copied');
+      return (function($button) {
+        return setTimeout(function() {
+          return $button.text('Copy');
+        }, 800);
+      })($(this));
     }
   });
   $canvas.bind('click', onClick);
@@ -92,8 +101,8 @@ clearCanvas = function() {
 
 onClick = function(e) {
   var color, cx, cy, p, pixel_current_color, pos, rgb, _len, _len2;
-  cx = e.clientX - $canvas.offset().left;
-  cy = e.clientY - $canvas.offset().top;
+  cx = e.clientX - $canvas.offset().left + document.body.scrollLeft;
+  cy = e.clientY - $canvas.offset().top + document.body.scrollTop;
   cx = ~~(cx / 10) * 10;
   cy = ~~(cy / 10) * 10;
   color = $("input.color").css('background-color');
@@ -160,7 +169,7 @@ drawPixel = function(x, y, color, clear) {
 
 generateCode = function() {
   var code, code_art, code_prefix, code_suffix, p, _i, _len;
-  code_prefix = "#art {\n	width: " + pixel_length + "px;\n	height: " + pixel_length + "px;\n	background: " + origin_color + ";\n	box-shadow: ";
+  code_prefix = "#art {\n	width: " + canvas_size + "px;\n	height: " + canvas_size + "px;\n}\n\n#art div{\n	width: " + pixel_length + "px;\n	height: " + pixel_length + "px;\n	background: " + origin_color + ";\n	box-shadow: ";
   code_suffix = "\n}";
   code_art = '';
   for (_i = 0, _len = pixels.length; _i < _len; _i++) {
