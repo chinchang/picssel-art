@@ -84,7 +84,8 @@ pre{
 }
 
 #main-container .help li {
-	background-color: #539591;
+	background-color: transparent;
+	color: #333;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -98,8 +99,7 @@ pre{
 	-moz-box-sizing: border-box;
 	font-size: 12px;
 	vertical-align: top;
-	color: white;
-	-webkit-transition: padding 0.2s;
+	-webkit-transition: all 0.2s;
 	-moz-transition: padding 0.2s;
 }
 
@@ -109,14 +109,29 @@ pre{
 	width: 0;
 	height: 0;
 	border-width: 10px;
-	border-top-color: #539591;
+	border-top-color: transparent;
 	position: absolute;
 	bottom: -19px;
 	right: 40%;
+	-webkit-transition: all 0.2s;
+	-moz-transition: padding 0.2s;
 }
 
 #main-container .help li:HOVER {
 	padding-top: 15px;
+	background-color: #333;
+	color: white;
+}
+
+#main-container .help li:HOVER:after {
+	border-top-color: #333;
+}
+
+#main-container .help li:nth-child(1) {
+ 	-webkit-transform: rotate(-45deg);
+}
+#main-container .help li:nth-child(3) {
+ 	-webkit-transform: rotate(45deg);
 }
 
 input.color {
