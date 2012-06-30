@@ -10,6 +10,8 @@ What is it?
 
 piCSSel-art is a drawing app to draw pixel art and get it in CSS. Yes, you heard it right, CSS. The  app converts each pixel to corresponsing **box-shadow** CSS and generate HTML and CSS code which you can use to put that art on your page.
 
+Inspired by the space invader [http://css-tricks.com/examples/ShapesOfCSS/](here) by Vlad Zinculescu.
+
 How to use
 -----
 
