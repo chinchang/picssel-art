@@ -129,9 +129,11 @@ pre{
 
 #main-container .help li:nth-child(1) {
  	-webkit-transform: rotate(-45deg);
+ 	-moz-transform: rotate(-45deg);
 }
 #main-container .help li:nth-child(3) {
  	-webkit-transform: rotate(45deg);
+ 	-moz-transform: rotate(45deg);
 }
 
 input.color {
