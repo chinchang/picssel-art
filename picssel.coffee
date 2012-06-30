@@ -10,11 +10,11 @@ Licensed under The MIT License
 $canvas = null
 ctx = null
 $color_input = null
-pixel_length = 10
+pixel_size = 8
 pixels = []
 states = []
 undo_size = 15
-canvas_size = 100
+canvas_size = pixel_size * 10
 canvas_size_range = 
 	min: 50
 	max: 200
@@ -66,7 +66,7 @@ $(->
 )
 
 canvasResize = (e) ->
-	size = canvas_size + $.data(e.currentTarget, 'amount') * pixel_length
+	size = canvas_size + $.data(e.currentTarget, 'amount') * pixel_size
 	return if size < canvas_size_range.min or size > canvas_size_range.max
 	canvas_size = size
 	$canvas.attr 'width', canvas_size
@@ -90,8 +90,8 @@ onClick = (e) ->
 	cy = e.clientY - $canvas.offset().top + document.body.scrollTop
 
 	# get the pixel clicked
-	cx = ~~(cx/10) * 10
-	cy = ~~(cy/10) * 10
+	cx = ~~(cx/pixel_size) * pixel_size
+	cy = ~~(cy/pixel_size) * pixel_size
 	color = $("input.color").css 'background-color'
 	pixel_current_color = getPixelColor cx, cy
 
@@ -136,10 +136,10 @@ function drawPixel
 ###
 drawPixel = (x, y, color = '#000', clear = false) ->
 	if clear
-		ctx.clearRect x, y, pixel_length, pixel_length
+		ctx.clearRect x, y, pixel_size, pixel_size
 	else
 		ctx.fillStyle = color
-		ctx.fillRect x, y, pixel_length, pixel_length
+		ctx.fillRect x, y, pixel_size, pixel_size
 
 
 generateCode = ->
@@ -150,8 +150,8 @@ generateCode = ->
 				}
 				
 				#art div{
-					width: #{pixel_length}px;
-					height: #{pixel_length}px;
+					width: #{pixel_size}px;
+					height: #{pixel_size}px;
 					background: #{origin_color};
 					box-shadow: 
 				"""	

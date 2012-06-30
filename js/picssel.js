@@ -5,7 +5,7 @@ version 1.0
 Author	Kushagra Gour a.k.a. chinchang (chinchang457@gmail.com)
 Licensed under The MIT License
 */
-var $canvas, $color_input, addState, canvasResize, canvas_size, canvas_size_range, clearCanvas, ctx, drawPixel, generateCode, getPixelColor, getRGB, onClick, origin_color, pixel_length, pixels, states, undo, undo_size;
+var $canvas, $color_input, addState, canvasResize, canvas_size, canvas_size_range, clearCanvas, ctx, drawPixel, generateCode, getPixelColor, getRGB, onClick, origin_color, pixel_size, pixels, states, undo, undo_size;
 
 $canvas = null;
 
@@ -13,7 +13,7 @@ ctx = null;
 
 $color_input = null;
 
-pixel_length = 10;
+pixel_size = 8;
 
 pixels = [];
 
@@ -21,7 +21,7 @@ states = [];
 
 undo_size = 15;
 
-canvas_size = 100;
+canvas_size = pixel_size * 10;
 
 canvas_size_range = {
   min: 50,
@@ -73,7 +73,7 @@ $(function() {
 
 canvasResize = function(e) {
   var size;
-  size = canvas_size + $.data(e.currentTarget, 'amount') * pixel_length;
+  size = canvas_size + $.data(e.currentTarget, 'amount') * pixel_size;
   if (size < canvas_size_range.min || size > canvas_size_range.max) return;
   canvas_size = size;
   $canvas.attr('width', canvas_size);
@@ -103,8 +103,8 @@ onClick = function(e) {
   var color, cx, cy, p, pixel_current_color, pos, rgb, _len, _len2;
   cx = e.clientX - $canvas.offset().left + document.body.scrollLeft;
   cy = e.clientY - $canvas.offset().top + document.body.scrollTop;
-  cx = ~~(cx / 10) * 10;
-  cy = ~~(cy / 10) * 10;
+  cx = ~~(cx / pixel_size) * pixel_size;
+  cy = ~~(cy / pixel_size) * pixel_size;
   color = $("input.color").css('background-color');
   pixel_current_color = getPixelColor(cx, cy);
   /*
@@ -160,16 +160,16 @@ drawPixel = function(x, y, color, clear) {
   if (color == null) color = '#000';
   if (clear == null) clear = false;
   if (clear) {
-    return ctx.clearRect(x, y, pixel_length, pixel_length);
+    return ctx.clearRect(x, y, pixel_size, pixel_size);
   } else {
     ctx.fillStyle = color;
-    return ctx.fillRect(x, y, pixel_length, pixel_length);
+    return ctx.fillRect(x, y, pixel_size, pixel_size);
   }
 };
 
 generateCode = function() {
   var code, code_art, code_prefix, code_suffix, p, _i, _len;
-  code_prefix = "#art {\n	width: " + canvas_size + "px;\n	height: " + canvas_size + "px;\n}\n\n#art div{\n	width: " + pixel_length + "px;\n	height: " + pixel_length + "px;\n	background: " + origin_color + ";\n	box-shadow: ";
+  code_prefix = "#art {\n	width: " + canvas_size + "px;\n	height: " + canvas_size + "px;\n}\n\n#art div{\n	width: " + pixel_size + "px;\n	height: " + pixel_size + "px;\n	background: " + origin_color + ";\n	box-shadow: ";
   code_suffix = "\n}";
   code_art = '';
   for (_i = 0, _len = pixels.length; _i < _len; _i++) {
