@@ -1,5 +1,6 @@
 .hidden { display: none; }
 .clear { clear: both; }
+.ralign { text-align: right; }
 
 body{
 	background: #EEE -webkit-radial-gradient(50% 70%,cover,rgba(255, 255, 255, 0.65) 0,rgba(255, 255, 255, 0) 82%);
