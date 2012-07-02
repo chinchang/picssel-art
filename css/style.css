@@ -54,7 +54,9 @@ p {	font-size: 12px; }
 }
 
 #main-container #left { 
-	float: left; 
+	float: left;
+	-webkit-user-select: none;
+	-moz-user-select: none;
 }
 
 #main-container #right { float: right; text-align: left; } 
