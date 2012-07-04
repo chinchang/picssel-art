@@ -33,6 +33,7 @@ $(->
         copy: ->
         	return $('#html-code').text()
         afterCopy: ->
+        	###
         	$(this).text('Copied');
         	# reset the button text after sometime
         	(($button) ->
@@ -40,7 +41,7 @@ $(->
         			$button.text('Copy')
         		, 800)
         	)($(this))
-        	
+        	###
     })
 
     $('a#copy-css').zclip({
@@ -48,6 +49,7 @@ $(->
         copy: ->
         	return $('#css-code').text()
         afterCopy: ->
+        	###
         	$(this).text('Copied');
         	# reset the button text after sometime
         	(($button) ->
@@ -55,7 +57,7 @@ $(->
         			$button.text('Copy')
         		, 800)
         	)($(this))
-        	
+        	###
     })
 
 	$canvas.bind 'click', onClick

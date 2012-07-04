@@ -42,12 +42,15 @@ $(function() {
       return $('#html-code').text();
     },
     afterCopy: function() {
-      $(this).text('Copied');
-      return (function($button) {
-        return setTimeout(function() {
-          return $button.text('Copy');
-        }, 800);
-      })($(this));
+      /*
+              	$(this).text('Copied');
+              	# reset the button text after sometime
+              	(($button) ->
+              		setTimeout(->
+              			$button.text('Copy')
+              		, 800)
+              	)($(this))
+      */
     }
   });
   $('a#copy-css').zclip({
@@ -56,12 +59,15 @@ $(function() {
       return $('#css-code').text();
     },
     afterCopy: function() {
-      $(this).text('Copied');
-      return (function($button) {
-        return setTimeout(function() {
-          return $button.text('Copy');
-        }, 800);
-      })($(this));
+      /*
+              	$(this).text('Copied');
+              	# reset the button text after sometime
+              	(($button) ->
+              		setTimeout(->
+              			$button.text('Copy')
+              		, 800)
+              	)($(this))
+      */
     }
   });
   $canvas.bind('click', onClick);
