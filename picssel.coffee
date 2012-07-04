@@ -181,7 +181,8 @@ generateCode = ->
 	code_art = ''
 
 	for p in pixels
-		code_art = code_art.concat "\n\t#{p.x}px #{p.y}px #{p.color}," unless p.x is 0 and p.y is 0
+		color_hash = RGBToHash p.color
+		code_art = code_art.concat "#{p.x}px #{p.y}px #{color_hash}," unless p.x is 0 and p.y is 0
 	code_art = code_art.replace(/,$/, '').concat(';')
 	code = code_prefix.concat(code_art).concat(code_suffix)
 	$('#css-code').html code
@@ -200,3 +201,8 @@ getRGB = (color) ->
 	color = color.replace(/\s*/g,'')
 	if(color.indexOf '#' is -1 )
 		color.match(/rgba?\((\d*),(\d*),(\d*),?\d*\)/)?.slice(1).map( (o) -> parseInt(o))
+
+RGBToHash = (rgb) ->
+	rgb = getRGB rgb
+	rgb = rgb[2] | (rgb[1] << 8) | (rgb[0] << 16)
+	'#' + rgb.toString 16

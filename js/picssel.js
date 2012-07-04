@@ -5,7 +5,7 @@ version 1.0
 Author	Kushagra Gour a.k.a. chinchang (chinchang457@gmail.com)
 Licensed under The MIT License
 */
-var $canvas, $color_input, addState, canvasResize, canvas_size, canvas_size_range, clearCanvas, ctx, drawPixel, generateCode, getPixelColor, getRGB, onClick, origin_color, pixel_size, pixels, states, undo, undo_size;
+var $canvas, $color_input, RGBToHash, addState, canvasResize, canvas_size, canvas_size_range, clearCanvas, ctx, drawPixel, generateCode, getPixelColor, getRGB, onClick, origin_color, pixel_size, pixels, states, undo, undo_size;
 
 $canvas = null;
 
@@ -186,14 +186,15 @@ drawPixel = function(x, y, color, clear) {
 };
 
 generateCode = function() {
-  var code, code_art, code_prefix, code_suffix, p, _i, _len;
+  var code, code_art, code_prefix, code_suffix, color_hash, p, _i, _len;
   code_prefix = "#art {\n	width: " + canvas_size + "px;\n	height: " + canvas_size + "px;\n}\n\n#art div{\n	width: " + pixel_size + "px;\n	height: " + pixel_size + "px;\n	background: " + origin_color + ";\n	box-shadow: ";
   code_suffix = "\n}";
   code_art = '';
   for (_i = 0, _len = pixels.length; _i < _len; _i++) {
     p = pixels[_i];
+    color_hash = RGBToHash(p.color);
     if (!(p.x === 0 && p.y === 0)) {
-      code_art = code_art.concat("\n\t" + p.x + "px " + p.y + "px " + p.color + ",");
+      code_art = code_art.concat("" + p.x + "px " + p.y + "px " + color_hash + ",");
     }
   }
   code_art = code_art.replace(/,$/, '').concat(';');
@@ -227,4 +228,10 @@ getRGB = function(color) {
       return parseInt(o);
     }) : void 0;
   }
+};
+
+RGBToHash = function(rgb) {
+  rgb = getRGB(rgb);
+  rgb = rgb[2] | (rgb[1] << 8) | (rgb[0] << 16);
+  return '#' + rgb.toString(16);
 };
