@@ -68,6 +68,7 @@ p {	font-size: 12px; }
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	vertical-align: middle;
+	cursor: crosshair;
 }
 
 pre{
@@ -171,6 +172,7 @@ input {
 #sizedown-button, #sizeup-button { 
 	vertical-align: top;
 	text-align: center;
+	width: 30px;
 }
 
 .button{
