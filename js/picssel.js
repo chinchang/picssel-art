@@ -5,7 +5,7 @@ version 1.0
 Author	Kushagra Gour a.k.a. chinchang (chinchang457@gmail.com)
 Licensed under The MIT License
 */
-var $canvas, $color_input, RGBToHash, addState, canvasResize, canvas_size, canvas_size_range, clearCanvas, ctx, drawPixel, generateCode, getPixelColor, getRGB, onClick, origin_color, pixel_size, pixels, states, undo, undo_size;
+var $canvas, $color_input, RGBToHash, addState, canvasResize, canvas_size, canvas_size_range, clearCanvas, ctx, current_path, drawPixel, generateCode, getPixelColor, getRGB, is_mouse_down, onMouseDown, onMouseMove, onMouseUp, origin_color, pixel_size, pixels, states, undo, undo_size;
 
 $canvas = null;
 
@@ -13,7 +13,7 @@ ctx = null;
 
 $color_input = null;
 
-pixel_size = 8;
+pixel_size = 6;
 
 pixels = [];
 
@@ -30,6 +30,10 @@ canvas_size_range = {
 
 origin_color = 'transparent';
 
+is_mouse_down = false;
+
+current_path = [];
+
 $(function() {
   $canvas = $('#c');
   $color_input = $('input.color');
@@ -40,37 +44,15 @@ $(function() {
     path: 'js/ZeroClipboard.swf',
     copy: function() {
       return $('#html-code').text();
-    },
-    afterCopy: function() {
-      /*
-              	$(this).text('Copied');
-              	# reset the button text after sometime
-              	(($button) ->
-              		setTimeout(->
-              			$button.text('Copy')
-              		, 800)
-              	)($(this))
-      */
     }
   });
   $('a#copy-css').zclip({
     path: 'js/ZeroClipboard.swf',
     copy: function() {
       return $('#css-code').text();
-    },
-    afterCopy: function() {
-      /*
-              	$(this).text('Copied');
-              	# reset the button text after sometime
-              	(($button) ->
-              		setTimeout(->
-              			$button.text('Copy')
-              		, 800)
-              	)($(this))
-      */
     }
   });
-  $canvas.bind('click', onClick);
+  $canvas.bind('mousedown', onMouseDown);
   $('#generate-button').bind('click', generateCode);
   $('#undo-button').bind('click', undo);
   $('#clear-button').bind('click', clearCanvas);
@@ -123,7 +105,7 @@ clearCanvas = function() {
   return $('#css-code').html('');
 };
 
-onClick = function(e) {
+onMouseDown = function(e) {
   var color, cx, cy, p, pixel_current_color, pos, rgb, _len, _len2;
   cx = e.clientX - $canvas.offset().left + document.body.scrollLeft;
   cy = e.clientY - $canvas.offset().top + document.body.scrollTop;
@@ -168,6 +150,20 @@ onClick = function(e) {
       color: color
     });
   }
+};
+
+onMouseMove = function(e) {
+  var color, cx, cy, pixel_current_color;
+  cx = e.clientX - $canvas.offset().left + document.body.scrollLeft;
+  cy = e.clientY - $canvas.offset().top + document.body.scrollTop;
+  cx = ~~(cx / pixel_size) * pixel_size;
+  cy = ~~(cy / pixel_size) * pixel_size;
+  color = $("input.color").css('background-color');
+  return pixel_current_color = getPixelColor(cx, cy);
+};
+
+onMouseUp = function(e) {
+  return is_mouse_down = false;
 };
 
 /*
@@ -238,6 +234,5 @@ getRGB = function(color) {
 
 RGBToHash = function(rgb) {
   rgb = getRGB(rgb);
-  rgb = rgb[2] | (rgb[1] << 8) | (rgb[0] << 16);
-  return '#' + rgb.toString(16);
+  return '#' + (rgb[2] | (rgb[1] << 8) | (rgb[0] << 16) | (1 << 24)).toString(16).splice(1);
 };

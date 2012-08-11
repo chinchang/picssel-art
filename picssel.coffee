@@ -10,7 +10,7 @@ Licensed under The MIT License
 $canvas = null
 ctx = null
 $color_input = null
-pixel_size = 8
+pixel_size = 6
 pixels = []
 states = []
 undo_size = 15
@@ -19,6 +19,8 @@ canvas_size_range =
 	min: 50
 	max: 200
 origin_color = 'transparent'
+is_mouse_down = false
+current_path = []
 
 $(->
 	$canvas = $('#c')
@@ -32,35 +34,15 @@ $(->
         path: 'js/ZeroClipboard.swf',
         copy: ->
         	return $('#html-code').text()
-        afterCopy: ->
-        	###
-        	$(this).text('Copied');
-        	# reset the button text after sometime
-        	(($button) ->
-        		setTimeout(->
-        			$button.text('Copy')
-        		, 800)
-        	)($(this))
-        	###
     })
 
     $('a#copy-css').zclip({
         path: 'js/ZeroClipboard.swf',
         copy: ->
         	return $('#css-code').text()
-        afterCopy: ->
-        	###
-        	$(this).text('Copied');
-        	# reset the button text after sometime
-        	(($button) ->
-        		setTimeout(->
-        			$button.text('Copy')
-        		, 800)
-        	)($(this))
-        	###
     })
 
-	$canvas.bind 'click', onClick
+	$canvas.bind 'mousedown', onMouseDown
 	$('#generate-button').bind 'click', generateCode
 	$('#undo-button').bind 'click', undo
 	$('#clear-button').bind 'click', clearCanvas
@@ -106,7 +88,7 @@ clearCanvas = ->
 	states = []
 	$('#css-code').html ''
 
-onClick = (e) ->
+onMouseDown = (e) ->
 	cx = e.clientX - $canvas.offset().left + document.body.scrollLeft
 	cy = e.clientY - $canvas.offset().top + document.body.scrollTop
 
@@ -146,6 +128,19 @@ onClick = (e) ->
 				pixels.splice pos, 1
 				break
 		pixels.push {x: cx, y: cy, color: color}
+
+onMouseMove = (e) ->
+	cx = e.clientX - $canvas.offset().left + document.body.scrollLeft
+	cy = e.clientY - $canvas.offset().top + document.body.scrollTop
+
+	# get the pixel clicked
+	cx = ~~(cx/pixel_size) * pixel_size
+	cy = ~~(cy/pixel_size) * pixel_size
+	color = $("input.color").css 'background-color'
+	pixel_current_color = getPixelColor cx, cy
+
+onMouseUp = (e) ->
+	is_mouse_down = false
 
 ###
 function drawPixel
@@ -206,5 +201,4 @@ getRGB = (color) ->
 
 RGBToHash = (rgb) ->
 	rgb = getRGB rgb
-	rgb = rgb[2] | (rgb[1] << 8) | (rgb[0] << 16)
-	'#' + rgb.toString 16
+	'#' + (rgb[2] | (rgb[1] << 8) | (rgb[0] << 16) | (1 << 24)).toString(16).splice(1)
