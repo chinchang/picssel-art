@@ -201,4 +201,4 @@ getRGB = (color) ->
 
 RGBToHash = (rgb) ->
 	rgb = getRGB rgb
-	'#' + (rgb[2] | (rgb[1] << 8) | (rgb[0] << 16) | (1 << 24)).toString(16).splice(1)
+	'#' + (rgb[2] | (rgb[1] << 8) | (rgb[0] << 16) | (1 << 24)).toString(16).slice(1)

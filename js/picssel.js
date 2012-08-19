@@ -234,5 +234,5 @@ getRGB = function(color) {
 
 RGBToHash = function(rgb) {
   rgb = getRGB(rgb);
-  return '#' + (rgb[2] | (rgb[1] << 8) | (rgb[0] << 16) | (1 << 24)).toString(16).splice(1);
+  return '#' + (rgb[2] | (rgb[1] << 8) | (rgb[0] << 16) | (1 << 24)).toString(16).slice(1);
 };
