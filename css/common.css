@@ -83,9 +83,27 @@ header .button:hover + span{
 }
 
 #back-to-lab-button {
+	padding: 0 18px;
+	background: #000;
+	border-radius: 34px 0 0 34px;
+	color: #EEE;
 	position: fixed;
+	right: 0;
 	bottom: 10px;
-	right: 10px;
-	text-decoration: none;
+	display: block;
+	font-size: 12px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	overflow: hidden;
+	white-space: nowrap;
 	font-size: 20px;
+	opacity: 0.8;
+	text-decoration: none;
+	-webkit-transition-duration: 300ms;
+	-moz-transition-duration: 300ms;
+	-o-transition-duration: 300ms;
+}
+
+#back-to-lab-button:hover {
+	opacity: 1;
+	padding-left: 80px;
 }
