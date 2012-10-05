@@ -60,7 +60,7 @@ header #socialz{
 }
 
 header #socialz > *{
-	vertical-align: middle;
+	vertical-align: middle !important;
 }
 
 header:hover{
