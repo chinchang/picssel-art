@@ -15,7 +15,7 @@ Inspired by the space invader [here](http://css-tricks.com/examples/ShapesOfCSS/
 How to use
 -----
 
-Its simple! Draw your pixel marvel on the canvas and when done, press the **Genrate Code!** button to get the code.
+Its simple! Draw your pixel marvel on the canvas and when done, press the **Generate Code!** button to get the code.
 
 Try it out
 ------------
