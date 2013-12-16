@@ -31,3 +31,7 @@ Licensed under The MIT License
 
 
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/chinchang/picssel-art/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
