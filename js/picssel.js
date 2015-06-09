@@ -206,7 +206,7 @@ drawPixel = function(x, y, color, clear) {
 };
 
 generateCode = function() {
-  var code, code_art, code_prefix, code_suffix, color_hash, i, len, p;
+  var code, code_art, code_prefix, code_suffix, color_hash, data, i, jsonString, len, p;
   code_prefix = "#art {\n	width: " + canvas_size + "px;\n	height: " + canvas_size + "px;\n}\n\n#art:after {\n	content: '';\n	display: block;\n	width: " + pixel_size + "px;\n	height: " + pixel_size + "px;\n	background: " + origin_color + ";\n	box-shadow:";
   code_suffix = "\n}";
   code_art = '';
@@ -219,7 +219,14 @@ generateCode = function() {
   }
   code_art = code_art.replace(/,$/, '').concat(';');
   code = code_prefix.concat(code_art).concat(code_suffix);
-  return $('#css-code').html(code);
+  $('#css-code').html(code);
+  data = {
+    title: 'piCSSel-art generated art',
+    html: $('#html-code').html(),
+    css: code
+  };
+  jsonString = JSON.stringify(data).replace(/"/g, "&​quot;").replace(/'/g, "&apos;");
+  return $('#js-form-data').val(jsonString);
 };
 
 addState = function(x, y, old_color, new_color) {

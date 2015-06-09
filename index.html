@@ -1,6 +1,7 @@
 <html>
 
 <head>
+<meta name="google-site-verification" content="RgQqrBW-cnzsfKWCbNkdw-n0ujUJoeS9qmdNRSeDQ9Y" />
 <title>piCSSel-art - Draw pixel art using CSS only!</title>
 <meta name="description" content="piCSSel-art lets you draw pixel art using CSS only" />
 <meta name="keywords" content="pixel,css,draw,art,coffeescript">
@@ -24,9 +25,10 @@
 	<em>Created by <a href="https://twitter.com/#!/chinchang457" title="@chinchang457" target="blank">Kushagra Gour</a>.</em>
 
 	<div id="socialz">
-		
+
 		<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://kushagragour.in/lab/picssel-art/" data-via="chinchang457" data-hashtags="CSS,pixelart,coffeescript,javascript">Tweet</a>
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
 
 		<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fkushagragour.in%2Flab%2Fpicssel-art%2F&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
 
@@ -92,15 +94,17 @@
 			<pre id="css-code"></pre>
 			<a id="copy-css" class="copy-button button">Copy</a>
 		</div>
-		<p class="ralign">
-			See your art on <a href="http://codepen.io/" target="blank">Codepen.io</a>.
-		</p>
+		<form action="http://codepen.io/pen/define" method="POST" target="_blank" class="ralign">
+		  <input id="js-form-data" type="hidden" name="data" value="">
+		  <input type="submit" class="button" value="See your art on Codepen.io >">
+		</form>
+		<!-- See your art on <a href="javascript:void(0)" target="blank" onclick="openOnCodepen()">Codepen.io</a>. -->
 	</section>
 	<div class="clear"></div>
 </div>
 
 <div id="bottom-container">
-	<a href="https://github.com/chinchang/picssel-art">piCSSel-art</a> is released under the MIT License. 
+	<a href="https://github.com/chinchang/picssel-art">piCSSel-art</a> is released under the MIT License.
 </div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -128,7 +132,6 @@
   })();
 
 </script>
-
 </body>
 
 </html>

@@ -186,6 +186,18 @@ generateCode = ->
 	code = code_prefix.concat(code_art).concat(code_suffix)
 	$('#css-code').html code
 
+	data = {
+		title: 'piCSSel-art generated art',
+		html: $('#html-code').html(),
+		css: code,
+	}
+
+	jsonString = JSON.stringify(data)
+		.replace(/"/g, "&​quot;")
+		.replace(/'/g, "&apos;")
+
+	$('#js-form-data').val jsonString
+
 addState = (x, y, old_color, new_color) ->
 	states.push {x: x, y: y, old_color: old_color, new_color: new_color}
 	states.splice 0, 1 if states.length > undo_size
