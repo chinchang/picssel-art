@@ -1,7 +1,7 @@
 ###
 picssel.coffee
 
-version 1.0
+version 1.1
 Author	Kushagra Gour a.k.a. chinchang (chinchang457@gmail.com)
 Licensed under The MIT License
 
@@ -15,7 +15,7 @@ pixels = []
 states = []
 undo_size = 15
 canvas_size = pixel_size * 20
-canvas_size_range = 
+canvas_size_range =
 	min: 50
 	max: 200
 origin_color = 'transparent'
@@ -28,19 +28,19 @@ $(->
 	ctx = $('#c').get(0).getContext('2d')
 	$.data($('#sizedown-button')[0], 'amount', -1);
 	$.data($('#sizeup-button')[0], 'amount', 1);
-	
-	# initialize zclip
-	$('a#copy-html').zclip({
-        path: 'js/ZeroClipboard.swf',
-        copy: ->
-        	return $('#html-code').text()
-    })
 
-    $('a#copy-css').zclip({
-        path: 'js/ZeroClipboard.swf',
-        copy: ->
-        	return $('#css-code').text()
-    })
+	# initialize zclip
+	$('#copy-html').zclip({
+		path: 'js/ZeroClipboard.swf',
+		copy: ->
+			return $('#html-code').text()
+	})
+
+	$('#copy-css').zclip({
+		path: 'js/ZeroClipboard.swf',
+		copy: ->
+			return $('#css-code').text()
+	})
 
 	$canvas.bind 'mousedown', onMouseDown
 	$('#generate-button').bind 'click', generateCode
@@ -80,7 +80,7 @@ undo = ->
 			pixels.push last_point
 
 	drawPixel last_state.x, last_state.y, last_state.old_color, clear
-	
+
 
 clearCanvas = ->
 	ctx.clearRect 0, 0, $canvas.attr('width'), $canvas.attr('width')
@@ -117,7 +117,7 @@ onMouseDown = (e) ->
 				pixels.splice pos, 1
 				break
 		return
-	else 
+	else
 		drawPixel cx, cy, color
 		# add the new state
 		addState cx, cy, pixel_current_color, color
@@ -165,14 +165,16 @@ generateCode = ->
 					width: #{canvas_size}px;
 					height: #{canvas_size}px;
 				}
-				
-				#art div{
+
+				#art:after {
+					content: '';
+					display: block;
 					width: #{pixel_size}px;
 					height: #{pixel_size}px;
 					background: #{origin_color};
-					box-shadow: 
-				"""	
-	
+					box-shadow:
+				"""
+
 	code_suffix = "\n}"
 
 	code_art = ''
