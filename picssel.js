@@ -165,6 +165,7 @@ clearCanvas = () => {
 	// ctx.clearRect(0, 0, $canvas.getAttribute('width'), $canvas.getAttribute('width'))
 	pixels = []
 	states = []
+	map = []
 	$('#css-code').innerHTML = ''
 	generateCode();
 }
