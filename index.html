@@ -58,7 +58,7 @@
 				</div>
 				<div class="panel">
 					<label for="current-color">Select color</label>
-					<input id="current-color" class="color" value="#518B41" title="Change color" />
+					<input id="current-color" class="color" value="#518B41" style="background-color: rgb(81, 139, 65)" title="Change color" />
 					<div id="paletteEl">
 					</div>
 				</div>
@@ -102,9 +102,11 @@
 					</div>
 					<form action="https://codepen.io/pen/define" method="POST" target="_blank" class="ralign">
 						<input id="js-form-data" type="hidden" name="data" value="">
-						<input type="submit" class="button" value="See your art on Codepen.io">
+						<input type="submit" class="button button--full" value="See your art on Codepen.io">
 					</form>
 					<!-- See your art on <a href="javascript:void(0)" target="blank" onclick="openOnCodepen()">Codepen.io</a>. -->
+
+					<button id="shareBtn" class="button button--full">Share on Twitter</button>
 				</section>
 			</div>
 		</div>

@@ -12,6 +12,8 @@ var $canvas = null,
 		min: 5,
 		max: 200
 	},
+	// This is the color of (0,0) because that is specially set with
+	// background-color and not box-shadow;
 	origin_color = 'transparent',
 	is_mouse_down = false,
 	map = [],
@@ -36,10 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	pixelSizeSlider.addEventListener('change', pixelSizeChangeHandler)
 	showGridCheckbox.addEventListener('change', gridCheckboxHandler)
 	paletteEl.addEventListener('click', paletteClickHandler)
+	shareBtn.addEventListener('click', share);
+
+	populate();
 
 	pixelSizeChangeHandler()
 	gridCheckboxHandler();
 	new ClipboardJS('.js-copy-btn');
+
 })
 
 
@@ -170,6 +176,7 @@ clearCanvas = () => {
 	pixels = []
 	states = []
 	map = []
+	origin_color = 'transparent'
 	$('#css-code').innerHTML = ''
 	generateCode();
 }
@@ -281,7 +288,6 @@ addState = (x, y, old_color, new_color) => {
 		old_color: old_color,
 		new_color: new_color
 	})
-	console.log('adding', x, y, new_color)
 	if (states.length > undo_size) return states.splice(0, 1);
 }
 
@@ -318,6 +324,64 @@ setPixel = (px, py, color) => {
 		btn.setAttribute('aria-label', color);
 		btn.dataset.color = color;
 		paletteEl.appendChild(btn);
+	}
+}
+hexToRgb = hex => {
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	if (result) {
+		return `rgb(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)})`;
+	}
+	return '';
+}
+share = e => {
+	var url = `https://kushagragour.in/lab/picssel-art/?c=${canvas_size}&q=`;
+	var query = '',
+		color_hash;
+	pixels.forEach(p => {
+		color_hash = RGBToHash(p.color).slice(1)
+		query += `${p.x}-${p.y}-${color_hash},`;
+	});
+	query = query.replace(/,$/, '');
+	url += encodeURIComponent(query);
+
+	fetch('https://api-ssl.bitly.com/v4/shorten', {
+		method: 'POST',
+		body: JSON.stringify({
+			long_url: url,
+			group_guid: 'Bb718bWU8A9'
+		}),
+		headers: {
+			Authorization: `Bearer fc285f76aa4cf061477708597b9ffce3eb525289`,
+			'Content-Type': 'application/json'
+		}
+	}).then(res => res.json()).then(obj => {
+		const a = document.createElement('a')
+		obj.link = obj.link.replace(/http/, 'https');
+		a.href = `http://twitter.com/share?url=${obj.link}&text=Check out this CSS only pixel art I created with piCSSel-art!.&hashtags=pixelart,css&related=chinchang457`;
+		a.setAttribute('target', '_blank');
+		document.body.appendChild(a);
+		a.click();
+		a.remove();
+	});
+}
+populate = e => {
+	if (location.search.match(/\q\=(.*)/)) {
+		canvas_size = parseInt(location.search.match(/c\=(\d+)/)[1], 10)
+		let data = decodeURIComponent(location.search.match(/\q\=(.*)/)[1]);
+		data = data.split(',').filter(d => d);
+		data.forEach(dataPoint => {
+			dataPoint = dataPoint.split('-');
+			const color = hexToRgb('#' + dataPoint[2]);
+			pixels.push({
+				x: parseInt(dataPoint[0], 10),
+				y: parseInt(dataPoint[1], 10),
+				color
+			});
+			setPixel(dataPoint[0], dataPoint[1], color);
+		})
+
+		generateCode();
+		canvasResize();
 	}
 }
 
