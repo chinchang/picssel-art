@@ -28,8 +28,39 @@
 			</div>
 		</header>
 
-		<div id="main-container">
-			<section id="left" class="box">
+		<div class="flex">
+			<div class="left-sidebar">
+				<p>
+					<label class="d-b" for="">Canvas size</label>
+					<div class="flex ai-c">
+						<button id="sizedown-button" data-amount=-1 class="button" title="Decrease canvas size">-</button>
+						<span id="canvasSizeEl"></span>
+						<button id="sizeup-button" data-amount=1 class="button" title="Increase canvas size">+</button>
+					</div>
+				</p>
+				<p>
+					<label class="d-b" for="pixelSizeSlider">Pixel size
+					</label>
+					<div class="flex ai-c">
+						<input type="range" value="5" step="5" min="5" max="25" id="pixelSizeSlider" />
+						<span id="pixelSizeEl"></span>
+					</div>
+				</p>
+				<p>
+					<button id="undo-button" class="button button--full" title="Undo last change">Undo</button>
+					<button id="clear-button" class="button button--full" title="Clear the canvas">Clear</button>
+					<button id="generate-button" class="button button--full" title="Generate code!">Generate Code!</button>
+				</p>
+				<p>
+					<label for="current-color">Select color</label>
+					<input id="current-color" class="color" value="#518B41" title="Change color">
+				</p>
+
+				<div id="sample-art">
+					<div></div>
+				</div>
+			</div>
+			<div id="main-container">
 				<div class="help">
 					<ul>
 						<li>
@@ -41,55 +72,35 @@
 					</ul>
 					<div class="clear"></div>
 				</div>
-				<div>
-					<button id="sizedown-button" data-amount=-1 class="button" title="Canvas size down">-</button>
-					<div class="draw-area">
-						<canvas id="c" width="120" height="120"></canvas>
-						<div class="render" id="art"></div>
+
+				<div class="draw-area">
+					<canvas id="c" width="120" height="120"></canvas>
+					<div class="render" id="art"></div>
+				</div>
+			</div>
+			<div class="right-sidebar">
+				<section id="right" class="box">
+					HTML code:
+					<div class="code-container">
+						<pre id="html-code">&lt;div id="art"&gt;&lt;/div&gt;</pre>
+
+
+						<button class="js-copy-btn copy-button button" data-clipboard-target="#html-code">Copy</button>
 					</div>
-					<button id="sizeup-button" data-amount=1 class="button" title="Canvas size up">+</button>
-				</div>
-				<p>
-					<label for="">Pixel size
-					</label>
-					<input type="range" value="5" step="5" min="5" max="25" id="pixelSizeSlider" />
-				</p>
-				<p>
-					<button id="undo-button" class="button" title="Undo last change">Undo</button>
-					<button id="clear-button" class="button" title="Clear the canvas">Clear</button>
-					<button id="generate-button" class="button" title="Generate code!">Generate Code!</button>
-				</p>
-				<p>
-					<input class="color" value="#518B41" title="Change color">
-				</p>
-
-				<div id="sample-art">
-					<div></div>
-				</div>
-
-			</section>
-
-			<section id="right" class="box">
-				HTML code:
-				<div class="code-container">
-					<pre id="html-code">&lt;div id="art"&gt;&lt;/div&gt;</pre>
-
-
-					<button class="js-copy-btn copy-button button" data-clipboard-target="#html-code">Copy</button>
-				</div>
-				CSS code:
-				<div class="code-container">
-					<pre id="css-code"></pre>
-					<button class="js-copy-btn copy-button button" data-clipboard-target="#css-code">Copy</button>
-				</div>
-				<form action="https://codepen.io/pen/define" method="POST" target="_blank" class="ralign">
-					<input id="js-form-data" type="hidden" name="data" value="">
-					<input type="submit" class="button" value="See your art on Codepen.io >">
-				</form>
-				<!-- See your art on <a href="javascript:void(0)" target="blank" onclick="openOnCodepen()">Codepen.io</a>. -->
-			</section>
-			<div class="clear"></div>
+					CSS code:
+					<div class="code-container">
+						<pre id="css-code"></pre>
+						<button class="js-copy-btn copy-button button" data-clipboard-target="#css-code">Copy</button>
+					</div>
+					<form action="https://codepen.io/pen/define" method="POST" target="_blank" class="ralign">
+						<input id="js-form-data" type="hidden" name="data" value="">
+						<input type="submit" class="button" value="See your art on Codepen.io">
+					</form>
+					<!-- See your art on <a href="javascript:void(0)" target="blank" onclick="openOnCodepen()">Codepen.io</a>. -->
+				</section>
+			</div>
 		</div>
+
 
 		<div id="bottom-container">
 			Created by

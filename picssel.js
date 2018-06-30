@@ -29,12 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	$('#sizedown-button').addEventListener('click', canvasResize)
 	$('#sizeup-button').addEventListener('click', canvasResize)
 	pixelSizeSlider.addEventListener('change', pixelSizeChangeHandler)
-	canvasResize()
+	pixelSizeChangeHandler()
 	new ClipboardJS('.js-copy-btn');
 })
 
 pixelSizeChangeHandler = (e) => {
-	pixel_size = parseInt(e.target.value, 10);
+	if (e) {
+		pixel_size = parseInt(e.target.value, 10);
+	}
+	pixelSizeEl.textContent = `${pixel_size} px`;
 	canvasResize()
 }
 
@@ -48,6 +51,7 @@ canvasResize = (e) => {
 	}
 	$canvas.setAttribute('width', size)
 	$canvas.setAttribute('height', size)
+	canvasSizeEl.textContent = `${canvas_size}px x ${canvas_size}px`
 	generateCode()
 }
 
