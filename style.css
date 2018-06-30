@@ -221,6 +221,11 @@ input {
 	width: 100%;
 }
 
+.button--twitter {
+	border-color: #0086b6;
+	background: linear-gradient(to bottom, #00bbff 0%, #0090c4 100%);
+}
+
 .button:hover {
 	background-color: #007D9A;
 }
