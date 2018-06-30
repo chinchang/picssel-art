@@ -23,7 +23,6 @@ body {
 
 input {
 	border: 1px solid #CCC;
-	outline: none;
 	border-radius: 3px;
 }
 
@@ -70,12 +69,23 @@ p {
 	text-align: left;
 }
 
-#c {
+.draw-area {
+	position: relative;
+	display: inline-block;
 	background: #333;
-	border: 1px solid #CCC;
-	border-radius: 5px;
+}
+
+#c {
 	vertical-align: middle;
 	cursor: crosshair;
+}
+
+.render {
+	position: absolute;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	z-index: 1;
 }
 
 pre {
@@ -130,7 +140,6 @@ pre {
 }
 
 #main-container .help li:HOVER {
-	padding-top: 15px;
 	background-color: #333;
 	color: white;
 	cursor: help;
@@ -186,7 +195,6 @@ input {
 	text-shadow: 0 -1px 0px rgba(0, 0, 0, 0.25);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 	cursor: pointer;
-	outline: 0;
 	border: 0;
 	transition: background-color 0.3s;
 }
@@ -211,13 +219,13 @@ input {
 	padding: 5px;
 }
 
-#art {
+#sample-art {
 	width: 168px;
 	height: 168px;
 	margin: 0 auto;
 }
 
-#art div {
+#sample-art div {
 	width: 8px;
 	height: 8px;
 	background: transparent;

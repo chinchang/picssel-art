@@ -21,47 +21,49 @@
 	<body>
 		<header>
 			<h1>PICSSEL ART
+				<br>
 				<small>A tool to draw pixel art with CSS</small>
 			</h1>
-			<em>Created by
-				<a href="https://twitter.com/#!/chinchang457" title="@chinchang457" target="blank">Kushagra Gour</a>.</em>
-
 			<div id="socialz">
 			</div>
 		</header>
 
-		<div id="top-container"></div>
-
 		<div id="main-container">
 			<section id="left" class="box">
-				<p>
-					<div class="help">
-						<ul>
-							<li>
-								<strong>Ctrl/Cmd + Click</strong> to clear pixel</li>
-							<li>
-								<strong>Click</strong> to draw pixel</li>
-							<li>
-								<strong>Shift + Click</strong> to select color</li>
-						</ul>
-						<div class="clear"></div>
+				<div class="help">
+					<ul>
+						<li>
+							<strong>Ctrl/Cmd + Click</strong> to clear pixel</li>
+						<li>
+							<strong>Click</strong> to draw pixel</li>
+						<li>
+							<strong>Shift + Click</strong> to select color</li>
+					</ul>
+					<div class="clear"></div>
+				</div>
+				<div>
+					<button id="sizedown-button" data-amount=-1 class="button" title="Canvas size down">-</button>
+					<div class="draw-area">
+						<canvas id="c" width="120" height="120"></canvas>
+						<div class="render" id="art"></div>
 					</div>
+					<button id="sizeup-button" data-amount=1 class="button" title="Canvas size up">+</button>
+				</div>
+				<p>
+					<label for="">Pixel size
+					</label>
+					<input type="range" value="5" step="5" min="5" max="25" id="pixelSizeSlider" />
 				</p>
 				<p>
-					<button id="sizedown-button" class="button" title="Canvas size down">-</button>
-					<canvas id="c" width="120" height="120"></canvas>
-					<button id="sizeup-button" class="button" title="Canvas size up">+</button>
-				</p>
-				<p>
-					<button id="generate-button" class="button" title="Generate code!">Generate Code!</button>
 					<button id="undo-button" class="button" title="Undo last change">Undo</button>
 					<button id="clear-button" class="button" title="Clear the canvas">Clear</button>
+					<button id="generate-button" class="button" title="Generate code!">Generate Code!</button>
 				</p>
 				<p>
 					<input class="color" value="#518B41" title="Change color">
 				</p>
 
-				<div id="art">
+				<div id="sample-art">
 					<div></div>
 				</div>
 
@@ -90,21 +92,25 @@
 		</div>
 
 		<div id="bottom-container">
-			<a href="https://github.com/chinchang/picssel-art">piCSSel-art</a> is released under the MIT License.
+			Created by
+			<a href="https://twitter.com/#!/chinchang457" title="@chinchang457" target="blank">Kushagra Gour</a>.</em> -
+
+			<a href="https://github.com/chinchang/picssel-art">piCSSel-art</a> is open-source under the MIT License.
 		</div>
 
 		<script src="js/jscolor.js"></script>
-		<script src="https://unpkg.com/clipboard@2.0.0/dist/clipboard.min.js"></script>
+		<script src="js/clipboard.min.js"></script>
 		<script src="picssel.js"></script>
 
 		<a id="back-to-lab-button" href="../">More cool experiments!</a>
 
 		<!-- github ribbon -->
-		<a class="github-ribbon" href="https://github.com/chinchang/picssel-art">
+		<!--<a class="github-ribbon" href="https://github.com/chinchang/picssel-art">
 			<img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
 			    alt="Fork me on GitHub" />
-		</a>
+		</a>-->
 
+		<style id="renderStyles"></style>
 
 		<!-- google analyitcs -->
 		<script type="text/javascript">

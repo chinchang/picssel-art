@@ -3,13 +3,13 @@ window.$ = document.querySelector.bind(document);
 var $canvas = null,
 	ctx = null,
 	$color_input = null,
-	pixel_size = 6,
+	pixel_size = 25,
 	pixels = [],
 	states = [],
 	undo_size = 15,
-	canvas_size = pixel_size * 20,
+	canvas_size = 10,
 	canvas_size_range = {
-		min: 50,
+		min: 5,
 		max: 200
 	},
 	origin_color = 'transparent',
@@ -20,21 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	$canvas = document.querySelector('#c')
 	$color_input = document.querySelector('input.color')
 	ctx = $canvas.getContext('2d')
-	document.querySelector('#sizedown-button').dataset.amount = -1;
-	document.querySelector('#sizeup-button').dataset.amount = 1;
-
-	// initialize zclip
-	/* $('#copy-html').zclip({
-		path: 'js/ZeroClipboard.swf',
-		copy: ->
-			return $('#html-code').text()
-	}) */
-
-	/* $('#copy-css').zclip({
-		path: 'js/ZeroClipboard.swf',
-		copy: ->
-			return $('#css-code').text()
-	}) */
+	pixelSizeSlider.value = pixel_size;
 
 	$canvas.addEventListener('mousedown', onMouseDown);
 	$('#generate-button').addEventListener('click', generateCode)
@@ -42,19 +28,27 @@ document.addEventListener('DOMContentLoaded', () => {
 	$('#clear-button').addEventListener('click', clearCanvas)
 	$('#sizedown-button').addEventListener('click', canvasResize)
 	$('#sizeup-button').addEventListener('click', canvasResize)
-
+	pixelSizeSlider.addEventListener('change', pixelSizeChangeHandler)
+	canvasResize()
 	new ClipboardJS('.js-copy-btn');
 })
 
+pixelSizeChangeHandler = (e) => {
+	pixel_size = parseInt(e.target.value, 10);
+	canvasResize()
+}
+
 canvasResize = (e) => {
-	const size = canvas_size + e.currentTarget.dataset.amount * pixel_size;
-	if (size < canvas_size_range.min || size > canvas_size_range.max) {
+	if (e) {
+		canvas_size += parseInt(e.target.dataset.amount, 10);
+	}
+	const size = canvas_size * pixel_size;
+	if (canvas_size < canvas_size_range.min || canvas_size > canvas_size_range.max) {
 		return;
 	}
-	canvas_size = size
-	$canvas.setAttribute('width', canvas_size)
-	$canvas.setAttribute('height', canvas_size)
-	clearCanvas()
+	$canvas.setAttribute('width', size)
+	$canvas.setAttribute('height', size)
+	generateCode()
 }
 
 undo = () => {
@@ -89,15 +83,17 @@ undo = () => {
 		}
 	}
 
-	return drawPixel(last_state.x, last_state.y, last_state.old_color, clear)
+	drawPixel(last_state.x, last_state.y, last_state.old_color, clear);
+	generateCode();
 }
 
 
 clearCanvas = () => {
-	ctx.clearRect(0, 0, $canvas.getAttribute('width'), $canvas.getAttribute('width'))
+	// ctx.clearRect(0, 0, $canvas.getAttribute('width'), $canvas.getAttribute('width'))
 	pixels = []
 	states = []
 	$('#css-code').innerHTML = ''
+	generateCode();
 }
 
 onMouseDown = (e) => {
@@ -106,8 +102,10 @@ onMouseDown = (e) => {
 	let cy = e.clientY - canvasBounds.top + document.body.scrollTop
 
 	//  get the pixel clicked
-	cx = ~~(cx / pixel_size) * pixel_size;
-	cy = ~~(cy / pixel_size) * pixel_size;
+	let px = ~~(cx / pixel_size);
+	let py = ~~(cy / pixel_size);
+	cx = px * pixel_size;
+	cy = py * pixel_size;
 	let color = $("input.color").style.backgroundColor;
 	let pixel_current_color = getPixelColor(cx, cy)
 
@@ -127,14 +125,14 @@ onMouseDown = (e) => {
 		addState(cx, cy, pixel_current_color, 'clear')
 		for (let pos = 0, i = 0, len = pixels.length; i < len; pos = ++i) {
 			let p = pixels[pos];
-			if (p.x === cx && p.y === cy) {
+			if (p.x === px && p.y === py) {
 				pixels.splice(pos, 1)
 				break
 			}
 		}
 	} else {
 		drawPixel(cx, cy, color)
-		addState(cx, cy, pixel_current_color, color)
+		addState(px, py, pixel_current_color, color)
 
 		// # Dump it somewhere for processing, replace if coordinates already dumped
 		for (let pos = 0, j = 0, len1 = pixels.length; j < len1; pos = ++j) {
@@ -144,12 +142,16 @@ onMouseDown = (e) => {
 				break
 			}
 		}
-		return pixels.push({
-			x: cx,
-			y: cy,
+		pixels.push({
+			x: px,
+			y: py,
 			color: color
 		});
 	}
+
+	setTimeout(() => {
+		generateCode();
+	}, 10);
 }
 
 onMouseMove = (e) => {
@@ -175,14 +177,14 @@ function drawPixel
 */
 drawPixel = (x, y, color = '#000', clear = false) => {
 	if (clear) {
-		ctx.clearRect(x, y, pixel_size, pixel_size);
+		// ctx.clearRect(x, y, pixel_size, pixel_size);
 		if (x === 0 && y === 0) {
 			return origin_color = 'transparent';
 		}
 
 	} else {
-		ctx.fillStyle = color
-		ctx.fillRect(x, y, pixel_size, pixel_size)
+		// ctx.fillStyle = color
+		// ctx.fillRect(x, y, pixel_size, pixel_size)
 		if (x === 0 && y === 0) {
 			return origin_color = color
 		}
@@ -190,17 +192,18 @@ drawPixel = (x, y, color = '#000', clear = false) => {
 }
 
 generateCode = () => {
+	const size = canvas_size * pixel_size;
 	code_prefix = `
 #art {
-	width: ${canvas_size}px;
-	height: ${canvas_size}px;
+	width: ${size}px;
+	height: ${size}px;
 }
 
 #art:after {
 	content: '';
 	display: block;
 	width: ${pixel_size}px;
-	height: #{pixel_size}px;
+	height: ${pixel_size}px;
 	background: ${origin_color};
 	box-shadow:
 	`;
@@ -211,24 +214,26 @@ generateCode = () => {
 	pixels.forEach(p => {
 		color_hash = RGBToHash(p.color)
 		if (p.x !== 0 || p.y !== 0) {
-			code_art = code_art.concat(`${p.x}px ${p.y}px ${color_hash},`)
+			code_art = code_art.concat(`${p.x * pixel_size}px ${p.y * pixel_size}px ${color_hash},`)
 		}
-		code_art = code_art.replace(/,$/, '').concat(';')
-		code = code_prefix.concat(code_art).concat(code_suffix)
-		$('#css-code').innerHTML = code
+	});
+	code_art = code_art.replace(/,$/, '').concat(';')
+	code = code_prefix.concat(code_art).concat(code_suffix)
+	$('#css-code').innerHTML = code;
+	renderStyles.textContent = code;
 
-		data = {
-			title: 'piCSSel-art generated art',
-			html: $('#html-code').innerHTML,
-			css: code,
-		}
+	data = {
+		title: 'piCSSel-art generated art',
+		html: $('#html-code').innerHTML,
+		css: code,
+	}
 
-		jsonString = JSON.stringify(data)
-			.replace(/"/g, "&​quot;")
-			.replace(/'/g, "&apos;")
+	jsonString = JSON.stringify(data)
+		.replace(/"/g, "&​quot;")
+		.replace(/'/g, "&apos;")
 
-		return $('#js-form-data').value = jsonString
-	})
+	return $('#js-form-data').value = jsonString
+
 }
 
 addState = (x, y, old_color, new_color) => {
