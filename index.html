@@ -1,137 +1,128 @@
 <html>
 
-<head>
-<meta name="google-site-verification" content="RgQqrBW-cnzsfKWCbNkdw-n0ujUJoeS9qmdNRSeDQ9Y" />
-<title>piCSSel-art - Draw pixel art using CSS only!</title>
-<meta name="description" content="piCSSel-art lets you draw pixel art using CSS only" />
-<meta name="keywords" content="pixel,css,draw,art,coffeescript">
-<meta name="author" content="Kushagra Gour" />
+	<head>
+		<title>piCSSel-art - Draw pixel art using CSS only!</title>
+		<meta name="description" content="piCSSel-art lets you draw pixel art using CSS only" />
+		<meta name="keywords" content="pixel,css,draw,art,coffeescript">
+		<meta name="author" content="Kushagra Gour" />
 
-<link href="http://kushagragour.in/css/lab.css" rel="stylesheet" type="text/css"/>
-<link href="css/style.css" rel="stylesheet" type="text/css"/>
-<link rel="image_src" href="ss.png"/>
+		<link href="https://kushagragour.in/css/lab.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link rel="image_src" href="ss.png" />
 
-<script type="text/javascript">
-	if(typeof chrome != 'undefined' && chrome.app.isInstalled) {
-		document.querySelectorAll('html')[0].className = document.querySelectorAll('html')[0].className  + ' chrome-app ';
-	}
-</script>
-
-</head>
-
-<body>
-<header>
-	<h1>PICSSEL ART</h1>
-	<em>Created by <a href="https://twitter.com/#!/chinchang457" title="@chinchang457" target="blank">Kushagra Gour</a>.</em>
-
-	<div id="socialz">
-
-		<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://kushagragour.in/lab/picssel-art/" data-via="chinchang457" data-hashtags="CSS,pixelart,coffeescript,javascript">Tweet</a>
-		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-
-		<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fkushagragour.in%2Flab%2Fpicssel-art%2F&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-
-		<!-- Place this tag where you want the +1 button to render. -->
-		<div class="g-plusone" data-size="medium" data-href="http://kushagragour.in/lab/picssel-art/"></div>
-
-		<!-- Place this tag after the last +1 button tag. -->
 		<script type="text/javascript">
-		  (function() {
-		  	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-		  	po.src = 'https://apis.google.com/js/plusone.js';
-		  	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-		  })();
+			if (typeof chrome != 'undefined' && chrome.app.isInstalled) {
+				document.querySelectorAll('html')[0].className = document.querySelectorAll('html')[0].className + ' chrome-app ';
+			}
 		</script>
-	</div>
-</header>
 
-<div id="top-container"></div>
+	</head>
 
-<div id="main-container">
-	<section id="left" class="box">
-		<p>
-			<div class="help">
-				<ul>
-					<li><strong>Ctrl/Cmd + Click</strong> to clear pixel</li>
-					<li><strong>Click</strong> to draw pixel</li>
-					<li><strong>Shift + Click</strong> to select color</li>
-				</ul>
-				<div class="clear"></div>
+	<body>
+		<header>
+			<h1>PICSSEL ART
+				<small>A tool to draw pixel art with CSS</small>
+			</h1>
+			<em>Created by
+				<a href="https://twitter.com/#!/chinchang457" title="@chinchang457" target="blank">Kushagra Gour</a>.</em>
+
+			<div id="socialz">
 			</div>
-		</p>
-		<p>
-			<button id="sizedown-button" class="button" title="Canvas size down">-</button>
-			<canvas id="c" width="120" height="120" ></canvas>
-			<button id="sizeup-button" class="button" title="Canvas size up">+</button>
-		</p>
-		<p>
-			<button id="generate-button" class="button" title="Generate code!">Generate Code!</button>
-			<button id="undo-button" class="button" title="Undo last change">Undo</button>
-			<button id="clear-button" class="button" title="Clear the canvas">Clear</button>
-		</p>
-		<p>
-			<input class="color" value="#518B41" title="Change color">
-		</p>
+		</header>
 
-		<div id="art">
-			<div></div>
+		<div id="top-container"></div>
+
+		<div id="main-container">
+			<section id="left" class="box">
+				<p>
+					<div class="help">
+						<ul>
+							<li>
+								<strong>Ctrl/Cmd + Click</strong> to clear pixel</li>
+							<li>
+								<strong>Click</strong> to draw pixel</li>
+							<li>
+								<strong>Shift + Click</strong> to select color</li>
+						</ul>
+						<div class="clear"></div>
+					</div>
+				</p>
+				<p>
+					<button id="sizedown-button" class="button" title="Canvas size down">-</button>
+					<canvas id="c" width="120" height="120"></canvas>
+					<button id="sizeup-button" class="button" title="Canvas size up">+</button>
+				</p>
+				<p>
+					<button id="generate-button" class="button" title="Generate code!">Generate Code!</button>
+					<button id="undo-button" class="button" title="Undo last change">Undo</button>
+					<button id="clear-button" class="button" title="Clear the canvas">Clear</button>
+				</p>
+				<p>
+					<input class="color" value="#518B41" title="Change color">
+				</p>
+
+				<div id="art">
+					<div></div>
+				</div>
+
+			</section>
+
+			<section id="right" class="box">
+				HTML code:
+				<div class="code-container">
+					<pre id="html-code">&lt;div id="art"&gt;&lt;/div&gt;</pre>
+
+
+					<button class="js-copy-btn copy-button button" data-clipboard-target="#html-code">Copy</button>
+				</div>
+				CSS code:
+				<div class="code-container">
+					<pre id="css-code"></pre>
+					<button class="js-copy-btn copy-button button" data-clipboard-target="#css-code">Copy</button>
+				</div>
+				<form action="https://codepen.io/pen/define" method="POST" target="_blank" class="ralign">
+					<input id="js-form-data" type="hidden" name="data" value="">
+					<input type="submit" class="button" value="See your art on Codepen.io >">
+				</form>
+				<!-- See your art on <a href="javascript:void(0)" target="blank" onclick="openOnCodepen()">Codepen.io</a>. -->
+			</section>
+			<div class="clear"></div>
 		</div>
 
-	</section>
-
-	<section id="right" class="box">
-		HTML code:
-		<div class="code-container">
-			<pre id="html-code">&lt;div id="art"&gt;&lt;/div&gt;
-			</pre>
-
-
-			<a id="copy-html" class="copy-button button">Copy</a>
+		<div id="bottom-container">
+			<a href="https://github.com/chinchang/picssel-art">piCSSel-art</a> is released under the MIT License.
 		</div>
-		CSS code:
-		<div class="code-container">
-			<pre id="css-code"></pre>
-			<a id="copy-css" class="copy-button button">Copy</a>
-		</div>
-		<form action="http://codepen.io/pen/define" method="POST" target="_blank" class="ralign">
-		  <input id="js-form-data" type="hidden" name="data" value="">
-		  <input type="submit" class="button" value="See your art on Codepen.io >">
-		</form>
-		<!-- See your art on <a href="javascript:void(0)" target="blank" onclick="openOnCodepen()">Codepen.io</a>. -->
-	</section>
-	<div class="clear"></div>
-</div>
 
-<div id="bottom-container">
-	<a href="https://github.com/chinchang/picssel-art">piCSSel-art</a> is released under the MIT License.
-</div>
+		<script src="js/jscolor.js"></script>
+		<script src="https://unpkg.com/clipboard@2.0.0/dist/clipboard.min.js"></script>
+		<script src="picssel.js"></script>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script type="text/javascript" src="js/jquery.zclip.min.js"></script>
-<script src="js/jscolor.js"></script>
-<script src="js/picssel.js"></script>
+		<a id="back-to-lab-button" href="../">More cool experiments!</a>
 
-<a id="back-to-lab-button" href="../">More cool experiments!</a>
-
-<!-- github ribbon -->
-<a class="github-ribbon" href="https://github.com/chinchang/picssel-art"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+		<!-- github ribbon -->
+		<a class="github-ribbon" href="https://github.com/chinchang/picssel-art">
+			<img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
+			    alt="Fork me on GitHub" />
+		</a>
 
 
-<!-- google analyitcs -->
-<script type="text/javascript">
+		<!-- google analyitcs -->
+		<script type="text/javascript">
+			if (location.href.indexOf('localhost') === -1) {
+				var _gaq = _gaq || [];
+				_gaq.push(['_setAccount', 'UA-19798102-1']);
+				_gaq.push(['_trackPageview']);
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-19798102-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
-</body>
+				(function () {
+					var ga = document.createElement('script');
+					ga.type = 'text/javascript';
+					ga.async = true;
+					ga.src = 'https://ssl.google-analytics.com/ga.js';
+					var s = document.getElementsByTagName('script')[0];
+					s.parentNode.insertBefore(ga, s);
+				})();
+			}
+		</script>
+	</body>
 
 </html>
