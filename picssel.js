@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	pixelSizeSlider.value = pixel_size;
 
 	$canvas.addEventListener('mousedown', onMouseDown);
+	$canvas.addEventListener('mousemove', onMouseMove);
+	$canvas.addEventListener('mouseup', onMouseUp);
+
 	$('#generate-button').addEventListener('click', generateCode)
 	$('#undo-button').addEventListener('click', undo)
 	$('#clear-button').addEventListener('click', clearCanvas)
@@ -35,6 +38,52 @@ document.addEventListener('DOMContentLoaded', () => {
 	gridCheckboxHandler();
 	new ClipboardJS('.js-copy-btn');
 })
+
+
+generateCode = throttle(() => {
+	const size = canvas_size * pixel_size;
+	code_prefix = `
+#art {
+	width: ${size}px;
+	height: ${size}px;
+}
+
+#art:after {
+	content: '';
+	display: block;
+	width: ${pixel_size}px;
+	height: ${pixel_size}px;
+	background: ${origin_color};
+	box-shadow:
+	`;
+	code_suffix = '\n}'
+
+	code_art = ''
+
+	pixels.forEach(p => {
+		color_hash = RGBToHash(p.color)
+		if (p.x !== 0 || p.y !== 0) {
+			code_art = code_art.concat(`${p.x * pixel_size}px ${p.y * pixel_size}px ${color_hash},`)
+		}
+	});
+	code_art = code_art.replace(/,$/, '').concat(';')
+	code = code_prefix.concat(code_art).concat(code_suffix)
+	$('#css-code').innerHTML = code;
+	renderStyles.textContent = code;
+
+	data = {
+		title: 'piCSSel-art generated art',
+		html: $('#html-code').innerHTML,
+		css: code,
+	}
+
+	jsonString = JSON.stringify(data)
+		.replace(/"/g, "&​quot;")
+		.replace(/'/g, "&apos;")
+
+	return $('#js-form-data').value = jsonString
+
+}, 100);
 
 pixelSizeChangeHandler = (e) => {
 	if (e) {
@@ -107,16 +156,9 @@ clearCanvas = () => {
 	generateCode();
 }
 
-onMouseDown = (e) => {
-	const canvasBounds = $canvas.getBoundingClientRect()
-	let cx = e.clientX - canvasBounds.left + document.body.scrollLeft
-	let cy = e.clientY - canvasBounds.top + document.body.scrollTop
-
-	//  get the pixel clicked
-	let px = ~~(cx / pixel_size);
-	let py = ~~(cy / pixel_size);
-	cx = px * pixel_size;
-	cy = py * pixel_size;
+pixelInteractionHandler = (px, py, e) => {
+	const cx = px * pixel_size;
+	const cy = py * pixel_size;
 	let color = $("input.color").style.backgroundColor;
 	let pixel_current_color = getPixelColor(cx, cy)
 
@@ -165,15 +207,35 @@ onMouseDown = (e) => {
 	}, 10);
 }
 
-onMouseMove = (e) => {
-	cx = e.clientX - $canvas.offset().left + document.body.scrollLeft
-	cy = e.clientY - $canvas.offset().top + document.body.scrollTop
+onMouseDown = (e) => {
+	const canvasBounds = $canvas.getBoundingClientRect()
+	let cx = e.clientX - canvasBounds.left + document.body.scrollLeft
+	let cy = e.clientY - canvasBounds.top + document.body.scrollTop
+	is_mouse_down = true;
 
-	// get the pixel clicked
-	cx = ~~(cx / pixel_size) * pixel_size
-	cy = ~~(cy / pixel_size) * pixel_size
-	color = $("input.color").css('background-color');
-	pixel_current_color = getPixelColor(cx, cy)
+	//  get the pixel clicked
+	let px = ~~(cx / pixel_size);
+	let py = ~~(cy / pixel_size);
+
+	pixelInteractionHandler(px, py, e)
+
+}
+
+onMouseMove = (e) => {
+	if (!is_mouse_down) {
+		return;
+	}
+
+	const canvasBounds = $canvas.getBoundingClientRect()
+	let cx = e.clientX - canvasBounds.left + document.body.scrollLeft
+	let cy = e.clientY - canvasBounds.top + document.body.scrollTop
+	is_mouse_down = true;
+
+	//  get the pixel clicked
+	let px = ~~(cx / pixel_size);
+	let py = ~~(cy / pixel_size);
+
+	pixelInteractionHandler(px, py, e);
 }
 onMouseUp = (e) => {
 	is_mouse_down = false
@@ -188,63 +250,18 @@ function drawPixel
 */
 drawPixel = (x, y, color = '#000', clear = false) => {
 	if (clear) {
-		// ctx.clearRect(x, y, pixel_size, pixel_size);
+		ctx.clearRect(x, y, pixel_size, pixel_size);
 		if (x === 0 && y === 0) {
 			return origin_color = 'transparent';
 		}
 
 	} else {
-		// ctx.fillStyle = color
-		// ctx.fillRect(x, y, pixel_size, pixel_size)
+		ctx.fillStyle = color
+		ctx.fillRect(x, y, pixel_size, pixel_size)
 		if (x === 0 && y === 0) {
 			return origin_color = color
 		}
 	}
-}
-
-generateCode = () => {
-	const size = canvas_size * pixel_size;
-	code_prefix = `
-#art {
-	width: ${size}px;
-	height: ${size}px;
-}
-
-#art:after {
-	content: '';
-	display: block;
-	width: ${pixel_size}px;
-	height: ${pixel_size}px;
-	background: ${origin_color};
-	box-shadow:
-	`;
-	code_suffix = '\n}'
-
-	code_art = ''
-
-	pixels.forEach(p => {
-		color_hash = RGBToHash(p.color)
-		if (p.x !== 0 || p.y !== 0) {
-			code_art = code_art.concat(`${p.x * pixel_size}px ${p.y * pixel_size}px ${color_hash},`)
-		}
-	});
-	code_art = code_art.replace(/,$/, '').concat(';')
-	code = code_prefix.concat(code_art).concat(code_suffix)
-	$('#css-code').innerHTML = code;
-	renderStyles.textContent = code;
-
-	data = {
-		title: 'piCSSel-art generated art',
-		html: $('#html-code').innerHTML,
-		css: code,
-	}
-
-	jsonString = JSON.stringify(data)
-		.replace(/"/g, "&​quot;")
-		.replace(/'/g, "&apos;")
-
-	return $('#js-form-data').value = jsonString
-
 }
 
 addState = (x, y, old_color, new_color) => {
@@ -256,6 +273,7 @@ addState = (x, y, old_color, new_color) => {
 	})
 	if (states.length > undo_size) return states.splice(0, 1);
 }
+
 getPixelColor = (x, y) => {
 	pixel_array = ctx.getImageData(x, y, 1, 1).data
 	if (pixel_array[3] === 0) {
@@ -275,4 +293,17 @@ getRGB = (color) => {
 RGBToHash = (rgb) => {
 	rgb = getRGB(rgb);
 	return '#' + (rgb[2] | (rgb[1] << 8) | (rgb[0] << 16) | (1 << 24)).toString(16).slice(1)
+}
+
+function throttle(func, limit) {
+	let inThrottle
+	return function () {
+		const args = arguments
+		const context = this
+		if (!inThrottle) {
+			func.apply(context, args)
+			inThrottle = true
+			setTimeout(() => inThrottle = false, limit)
+		}
+	}
 }
