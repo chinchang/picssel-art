@@ -86,7 +86,7 @@ generateCode = throttle(() => {
 
 	return $('#js-form-data').value = jsonString
 
-}, 100);
+}, 50);
 
 paletteClickHandler = e => {
 	if (e.target.classList.contains('palette-color')) {
@@ -156,6 +156,7 @@ undo = () => {
 	}
 
 	drawPixel(last_state.x, last_state.y, last_state.old_color, clear);
+	setPixel(last_state.x, last_state.y, last_state.old_color)
 	generateCode();
 }
 
