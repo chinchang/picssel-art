@@ -29,7 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	$('#sizedown-button').addEventListener('click', canvasResize)
 	$('#sizeup-button').addEventListener('click', canvasResize)
 	pixelSizeSlider.addEventListener('change', pixelSizeChangeHandler)
+	showGridCheckbox.addEventListener('change', gridCheckboxHandler)
+
 	pixelSizeChangeHandler()
+	gridCheckboxHandler();
 	new ClipboardJS('.js-copy-btn');
 })
 
@@ -38,7 +41,11 @@ pixelSizeChangeHandler = (e) => {
 		pixel_size = parseInt(e.target.value, 10);
 	}
 	pixelSizeEl.textContent = `${pixel_size} px`;
+	grid.style.backgroundSize = `${pixel_size}px ${pixel_size}px`;
 	canvasResize()
+}
+gridCheckboxHandler = (e) => {
+	grid.style.display = showGridCheckbox.checked ? 'block' : 'none';
 }
 
 canvasResize = (e) => {

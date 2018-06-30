@@ -104,6 +104,18 @@ p {
 	z-index: 1;
 }
 
+.grid {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-size: 25px 25px;
+	background-image: linear-gradient(to right, #d1d1d1 1px, transparent 1px), linear-gradient(to bottom, #e3e3e3 1px, transparent 1px);
+	opacity: 0.2;
+	pointer-events: none;
+}
+
 pre {
 	text-align: left;
 	background: #fff;

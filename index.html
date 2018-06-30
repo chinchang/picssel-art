@@ -52,6 +52,10 @@
 					<button id="generate-button" class="button button--full" title="Generate code!">Generate Code!</button>
 				</p>
 				<p>
+					<label>
+						<input id="showGridCheckbox" checked type="checkbox" />Show grid</label>
+				</p>
+				<p>
 					<label for="current-color">Select color</label>
 					<input id="current-color" class="color" value="#518B41" title="Change color">
 				</p>
@@ -76,6 +80,7 @@
 				<div class="draw-area">
 					<canvas id="c" width="120" height="120"></canvas>
 					<div class="render" id="art"></div>
+					<div id="grid" class="grid"></div>
 				</div>
 			</div>
 			<div class="right-sidebar">
