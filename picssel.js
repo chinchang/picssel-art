@@ -284,11 +284,6 @@ addState = (x, y, old_color, new_color) => {
 getPixelColor = (x, y) => {
 	if (!map[x] || !map[x][y]) return 'clear';
 	return map[x][y].color;
-	pixel_array = ctx.getImageData(x, y, 1, 1).data
-	if (pixel_array[3] === 0) {
-		return 'clear';
-	}
-	return 'rgba(#{pixel_array[0]}, #{pixel_array[1]}, #{pixel_array[2]}, #{pixel_array[3]})'
 }
 
 getRGB = (color) => {

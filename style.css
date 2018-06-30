@@ -67,9 +67,9 @@ p {
 
 #top-container,
 #bottom-container {
-	width: 900px;
+	max-width: 900px;
 	margin: 1rem auto;
-	color: #888;
+	color: #4e4d4d;
 }
 
 #bottom-container {
