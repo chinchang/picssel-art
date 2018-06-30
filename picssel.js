@@ -6,7 +6,7 @@ var $canvas = null,
 	pixel_size = 25,
 	pixels = [],
 	states = [],
-	undo_size = 15,
+	undo_size = 45,
 	canvas_size = 10,
 	canvas_size_range = {
 		min: 5,
@@ -14,6 +14,7 @@ var $canvas = null,
 	},
 	origin_color = 'transparent',
 	is_mouse_down = false,
+	map = [],
 	current_path = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -160,7 +161,7 @@ pixelInteractionHandler = (px, py, e) => {
 	const cx = px * pixel_size;
 	const cy = py * pixel_size;
 	let color = $("input.color").style.backgroundColor;
-	let pixel_current_color = getPixelColor(cx, cy)
+	let pixel_current_color = getPixelColor(px, py)
 
 	// if CTRL key pressed, clear the pixel
 	// if SHIFT key pressed, set current color to pixel color
@@ -168,13 +169,14 @@ pixelInteractionHandler = (px, py, e) => {
 	if (e.shiftKey) {
 		rgb = getRGB(pixel_current_color)
 		if (rgb) {
-			$color_input.get(0).color.fromRGB(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255);
+			$color_input.color.fromRGB(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255);
 		}
 	} else if (e.ctrlKey || e.metaKey) {
 		if (pixel_current_color === 'clear') {
 			return;
 		}
-		drawPixel(cx, cy, null, true)
+		drawPixel(px, py, null, true)
+		setPixel(px, py, 'clear')
 		addState(cx, cy, pixel_current_color, 'clear')
 		for (let pos = 0, i = 0, len = pixels.length; i < len; pos = ++i) {
 			let p = pixels[pos];
@@ -184,13 +186,15 @@ pixelInteractionHandler = (px, py, e) => {
 			}
 		}
 	} else {
-		drawPixel(cx, cy, color)
+		if (pixel_current_color === color) return;
+		drawPixel(px, py, color)
+		setPixel(px, py, color)
 		addState(px, py, pixel_current_color, color)
 
 		// # Dump it somewhere for processing, replace if coordinates already dumped
 		for (let pos = 0, j = 0, len1 = pixels.length; j < len1; pos = ++j) {
 			let p = pixels[pos];
-			if (p.x === cx && p.y === cy) {
+			if (p.x === px && p.y === py) {
 				pixels.splice(pos, 1)
 				break
 			}
@@ -250,16 +254,16 @@ function drawPixel
 */
 drawPixel = (x, y, color = '#000', clear = false) => {
 	if (clear) {
-		ctx.clearRect(x, y, pixel_size, pixel_size);
+		// ctx.clearRect(x, y, pixel_size, pixel_size);
 		if (x === 0 && y === 0) {
-			return origin_color = 'transparent';
+			origin_color = 'transparent';
 		}
 
 	} else {
-		ctx.fillStyle = color
-		ctx.fillRect(x, y, pixel_size, pixel_size)
+		// ctx.fillStyle = color
+		// ctx.fillRect(x, y, pixel_size, pixel_size)
 		if (x === 0 && y === 0) {
-			return origin_color = color
+			origin_color = color
 		}
 	}
 }
@@ -271,10 +275,13 @@ addState = (x, y, old_color, new_color) => {
 		old_color: old_color,
 		new_color: new_color
 	})
+	console.log('adding', x, y, new_color)
 	if (states.length > undo_size) return states.splice(0, 1);
 }
 
 getPixelColor = (x, y) => {
+	if (!map[x] || !map[x][y]) return 'clear';
+	return map[x][y].color;
 	pixel_array = ctx.getImageData(x, y, 1, 1).data
 	if (pixel_array[3] === 0) {
 		return 'clear';
@@ -293,6 +300,15 @@ getRGB = (color) => {
 RGBToHash = (rgb) => {
 	rgb = getRGB(rgb);
 	return '#' + (rgb[2] | (rgb[1] << 8) | (rgb[0] << 16) | (1 << 24)).toString(16).slice(1)
+}
+
+setPixel = (px, py, color) => {
+	map[px] = map[px] || [];
+	map[px][py] = {
+		px,
+		py,
+		color
+	};
 }
 
 function throttle(func, limit) {
