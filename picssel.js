@@ -44,6 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 generateCode = throttle(() => {
+	if (!pixels.length) {
+		$('#css-code').innerHTML = renderStyles.textContent = '';
+		return;
+	}
 	const size = canvas_size * pixel_size;
 	code_prefix = `
 #art {
