@@ -15,6 +15,7 @@ var $canvas = null,
 	origin_color = 'transparent',
 	is_mouse_down = false,
 	map = [],
+	palette = [],
 	current_path = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	$('#sizeup-button').addEventListener('click', canvasResize)
 	pixelSizeSlider.addEventListener('change', pixelSizeChangeHandler)
 	showGridCheckbox.addEventListener('change', gridCheckboxHandler)
+	paletteEl.addEventListener('click', paletteClickHandler)
 
 	pixelSizeChangeHandler()
 	gridCheckboxHandler();
@@ -86,6 +88,15 @@ generateCode = throttle(() => {
 
 }, 100);
 
+paletteClickHandler = e => {
+	if (e.target.classList.contains('palette-color')) {
+		const color = e.target.dataset.color;
+		const rgb = getRGB(color)
+		if (rgb) {
+			$color_input.color.fromRGB(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255);
+		}
+	}
+}
 pixelSizeChangeHandler = (e) => {
 	if (e) {
 		pixel_size = parseInt(e.target.value, 10);
@@ -157,9 +168,17 @@ clearCanvas = () => {
 	generateCode();
 }
 
-pixelInteractionHandler = (px, py, e) => {
-	const cx = px * pixel_size;
-	const cy = py * pixel_size;
+pixelInteractionHandler = (e) => {
+	const canvasBounds = $canvas.getBoundingClientRect()
+	let cx = e.clientX - canvasBounds.left
+	let cy = e.clientY - canvasBounds.top
+	is_mouse_down = true;
+
+	//  get the pixel clicked
+	let px = ~~(cx / pixel_size);
+	let py = ~~(cy / pixel_size);
+	cx = px * pixel_size;
+	cy = py * pixel_size;
 	let color = $("input.color").style.backgroundColor;
 	let pixel_current_color = getPixelColor(px, py)
 
@@ -212,34 +231,15 @@ pixelInteractionHandler = (px, py, e) => {
 }
 
 onMouseDown = (e) => {
-	const canvasBounds = $canvas.getBoundingClientRect()
-	let cx = e.clientX - canvasBounds.left + document.body.scrollLeft
-	let cy = e.clientY - canvasBounds.top + document.body.scrollTop
-	is_mouse_down = true;
 
-	//  get the pixel clicked
-	let px = ~~(cx / pixel_size);
-	let py = ~~(cy / pixel_size);
-
-	pixelInteractionHandler(px, py, e)
-
+	pixelInteractionHandler(e)
 }
 
 onMouseMove = (e) => {
 	if (!is_mouse_down) {
 		return;
 	}
-
-	const canvasBounds = $canvas.getBoundingClientRect()
-	let cx = e.clientX - canvasBounds.left + document.body.scrollLeft
-	let cy = e.clientY - canvasBounds.top + document.body.scrollTop
-	is_mouse_down = true;
-
-	//  get the pixel clicked
-	let px = ~~(cx / pixel_size);
-	let py = ~~(cy / pixel_size);
-
-	pixelInteractionHandler(px, py, e);
+	pixelInteractionHandler(e);
 }
 onMouseUp = (e) => {
 	is_mouse_down = false
@@ -309,6 +309,15 @@ setPixel = (px, py, color) => {
 		py,
 		color
 	};
+	if (palette.indexOf(color) === -1) {
+		palette.push(color)
+		const btn = document.createElement('button');
+		btn.classList.add('palette-color');
+		btn.style.backgroundColor = color;
+		btn.setAttribute('aria-label', color);
+		btn.dataset.color = color;
+		paletteEl.appendChild(btn);
+	}
 }
 
 function throttle(func, limit) {

@@ -30,35 +30,39 @@
 
 		<div class="flex">
 			<div class="left-sidebar">
-				<p>
+				<div class="panel">
 					<label class="d-b" for="">Canvas size</label>
 					<div class="flex ai-c">
 						<button id="sizedown-button" data-amount=-1 class="button" title="Decrease canvas size">-</button>
 						<span id="canvasSizeEl"></span>
 						<button id="sizeup-button" data-amount=1 class="button" title="Increase canvas size">+</button>
 					</div>
-				</p>
-				<p>
+				</div>
+				<div class="panel">
 					<label class="d-b" for="pixelSizeSlider">Pixel size
 					</label>
 					<div class="flex ai-c">
 						<input type="range" value="5" step="5" min="5" max="25" id="pixelSizeSlider" />
 						<span id="pixelSizeEl"></span>
 					</div>
-				</p>
-				<p>
-					<button id="undo-button" class="button button--full" title="Undo last change">Undo</button>
-					<button id="clear-button" class="button button--full" title="Clear the canvas">Clear</button>
+				</div>
+				<div class="panel">
+					<div class="flex">
+						<button id="undo-button" class="button button--full" title="Undo last change">Undo</button>
+						<button id="clear-button" class="button button--full" title="Clear the canvas">Clear</button>
+					</div>
 					<button id="generate-button" class="button button--full" title="Generate code!">Generate Code!</button>
-				</p>
-				<p>
+				</div>
+				<div class="panel">
 					<label>
 						<input id="showGridCheckbox" checked type="checkbox" />Show grid</label>
-				</p>
-				<p>
+				</div>
+				<div class="panel">
 					<label for="current-color">Select color</label>
-					<input id="current-color" class="color" value="#518B41" title="Change color">
-				</p>
+					<input id="current-color" class="color" value="#518B41" title="Change color" />
+					<div id="paletteEl">
+					</div>
+				</div>
 
 				<div id="sample-art">
 					<div></div>
