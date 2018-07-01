@@ -334,7 +334,7 @@ hexToRgb = hex => {
 	return '';
 }
 share = e => {
-	var url = `https://kushagragour.in/lab/picssel-art/?c=${canvas_size}&q=`;
+	var url = `${location.href}?c=${canvas_size}&q=`;
 	var query = '',
 		color_hash;
 	pixels.forEach(p => {
@@ -342,27 +342,10 @@ share = e => {
 		query += `${p.x}-${p.y}-${color_hash},`;
 	});
 	query = query.replace(/,$/, '');
-	url += encodeURIComponent(query);
+	url += query;
+	url = encodeURIComponent(url)
 
-	fetch('https://api-ssl.bitly.com/v4/shorten', {
-		method: 'POST',
-		body: JSON.stringify({
-			long_url: url,
-			group_guid: 'Bb718bWU8A9'
-		}),
-		headers: {
-			Authorization: `Bearer fc285f76aa4cf061477708597b9ffce3eb525289`,
-			'Content-Type': 'application/json'
-		}
-	}).then(res => res.json()).then(obj => {
-		const a = document.createElement('a')
-		obj.link = obj.link.replace(/http/, 'https');
-		a.href = `http://twitter.com/share?url=${obj.link}&text=Check out this CSS only pixel art I created with piCSSel-art!.&hashtags=pixelart,css&related=chinchang457`;
-		a.setAttribute('target', '_blank');
-		document.body.appendChild(a);
-		a.click();
-		a.remove();
-	});
+	window.open(`http://twitter.com/share?url=${url}&text=Check out this CSS only pixel art I created with piCSSel-art!&hashtags=pixelart,css&related=chinchang457`);
 }
 populate = e => {
 	if (location.search.match(/\q\=(.*)/)) {
