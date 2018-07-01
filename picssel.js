@@ -334,14 +334,22 @@ hexToRgb = hex => {
 	return '';
 }
 share = e => {
-	var url = `${location.href}?c=${canvas_size}&q=`;
+	var url = `${location.origin}${location.pathname}?c=${canvas_size}&q=`;
 	var query = '',
 		color_hash;
+	const color_map = {};
 	pixels.forEach(p => {
-		color_hash = RGBToHash(p.color).slice(1)
-		query += `${p.x}-${p.y}-${color_hash},`;
+		color_hex = RGBToHash(p.color).slice(1)
+		color_map[color_hex] = color_map[color_hex] || [];
+		color_map[color_hex].push(p.x)
+		color_map[color_hex].push(p.y)
 	});
-	query = query.replace(/,$/, '');
+	let pixel_string;
+	for (let color in color_map) {
+		pixel_string = color_map[color].join('z');
+		query += `${color}-${pixel_string}x`;
+	}
+	query = query.replace(/x$/, '');
 	url += query;
 	url = encodeURIComponent(url)
 
@@ -351,16 +359,19 @@ populate = e => {
 	if (location.search.match(/\q\=(.*)/)) {
 		canvas_size = parseInt(location.search.match(/c\=(\d+)/)[1], 10)
 		let data = decodeURIComponent(location.search.match(/\q\=(.*)/)[1]);
-		data = data.split(',').filter(d => d);
+		data = data.split('x').filter(d => d);
 		data.forEach(dataPoint => {
 			dataPoint = dataPoint.split('-');
-			const color = hexToRgb('#' + dataPoint[2]);
-			pixels.push({
-				x: parseInt(dataPoint[0], 10),
-				y: parseInt(dataPoint[1], 10),
-				color
-			});
-			setPixel(dataPoint[0], dataPoint[1], color);
+			const color = hexToRgb('#' + dataPoint[0]);
+			const pixels_arr = dataPoint[1].split('z');
+			for (let i = 0; i < pixels_arr.length; i += 2) {
+				pixels.push({
+					x: parseInt(pixels_arr[i], 10),
+					y: parseInt(pixels_arr[i + 1], 10),
+					color
+				});
+				setPixel(parseInt(pixels_arr[i], 10), parseInt(pixels_arr[i + 1], 10), color);
+			}
 		})
 
 		generateCode();
