@@ -334,15 +334,15 @@ hexToRgb = hex => {
 	return '';
 }
 share = e => {
-	var url = `${location.origin}${location.pathname}?c=${canvas_size}&q=`;
+	var url = `${location.origin}${location.pathname}?c=${canvas_size}&v=1&q=`;
 	var query = '',
 		color_hash;
 	const color_map = {};
 	pixels.forEach(p => {
 		color_hex = RGBToHash(p.color).slice(1)
 		color_map[color_hex] = color_map[color_hex] || [];
-		color_map[color_hex].push(p.x)
-		color_map[color_hex].push(p.y)
+		color_map[color_hex].push((p.x).toString(36));
+		color_map[color_hex].push((p.y).toString(36));
 	});
 	let pixel_string;
 	for (let color in color_map) {
@@ -358,21 +358,26 @@ share = e => {
 populate = e => {
 	if (location.search.match(/\q\=(.*)/)) {
 		canvas_size = parseInt(location.search.match(/c\=(\d+)/)[1], 10)
+		const version = location.search.match(/v\=(\d+)/) ? parseInt(location.search.match(/v\=(\d+)/)[1], 10) : 0;
 		let data = decodeURIComponent(location.search.match(/\q\=(.*)/)[1]);
-		data = data.split('x').filter(d => d);
-		data.forEach(dataPoint => {
-			dataPoint = dataPoint.split('-');
-			const color = hexToRgb('#' + dataPoint[0]);
-			const pixels_arr = dataPoint[1].split('z');
-			for (let i = 0; i < pixels_arr.length; i += 2) {
-				pixels.push({
-					x: parseInt(pixels_arr[i], 10),
-					y: parseInt(pixels_arr[i + 1], 10),
-					color
-				});
-				setPixel(parseInt(pixels_arr[i], 10), parseInt(pixels_arr[i + 1], 10), color);
-			}
-		})
+
+		if (version === 0 || version === 1) {
+			data = data.split('x').filter(d => d);
+			data.forEach(dataPoint => {
+				dataPoint = dataPoint.split('-');
+				const color = hexToRgb('#' + dataPoint[0]);
+				let pixels_arr = dataPoint[1].split('z');
+				pixels_arr = pixels_arr.map(p => parseInt(p, version === 1 ? 36 : 10))
+				for (let i = 0; i < pixels_arr.length; i += 2) {
+					pixels.push({
+						x: pixels_arr[i],
+						y: pixels_arr[i + 1],
+						color
+					});
+					setPixel(pixels_arr[i], pixels_arr[i + 1], color);
+				}
+			})
+		}
 
 		generateCode();
 		canvasResize();
