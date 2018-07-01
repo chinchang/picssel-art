@@ -129,7 +129,7 @@ canvasResize = (e) => {
 	}
 	$canvas.setAttribute('width', size)
 	$canvas.setAttribute('height', size)
-	canvasSizeEl.textContent = `${canvas_size}px x ${canvas_size}px`
+	canvasSizeEl.textContent = `${canvas_size}x${canvas_size} pixels`
 	generateCode()
 }
 
