@@ -334,7 +334,7 @@ hexToRgb = hex => {
 	return '';
 }
 share = e => {
-	var url = `${location.origin}${location.pathname}?c=${canvas_size}&v=1&q=`;
+	var url = `${location.origin}${location.pathname}?c=${canvas_size}&v=2&q=`;
 	var query = '',
 		color_hash;
 	const color_map = {};
@@ -350,9 +350,10 @@ share = e => {
 		query += `${color}-${pixel_string}x`;
 	}
 	query = query.replace(/x$/, '');
+	query = btoa(pako.deflate(query, {to:'string'}));
+
 	url += query;
 	url = encodeURIComponent(url)
-
 	window.open(`http://twitter.com/share?url=${url}&text=Check out this CSS only pixel art I created with piCSSel-art!&hashtags=pixelart,css&related=chinchang457`);
 }
 populate = e => {
@@ -361,27 +362,32 @@ populate = e => {
 		const version = location.search.match(/v\=(\d+)/) ? parseInt(location.search.match(/v\=(\d+)/)[1], 10) : 0;
 		let data = decodeURIComponent(location.search.match(/\q\=(.*)/)[1]);
 
-		if (version === 0 || version === 1) {
-			data = data.split('x').filter(d => d);
-			data.forEach(dataPoint => {
-				dataPoint = dataPoint.split('-');
-				const color = hexToRgb('#' + dataPoint[0]);
-				let pixels_arr = dataPoint[1].split('z');
-				pixels_arr = pixels_arr.map(p => parseInt(p, version === 1 ? 36 : 10))
-				for (let i = 0; i < pixels_arr.length; i += 2) {
-					pixels.push({
-						x: pixels_arr[i],
-						y: pixels_arr[i + 1],
-						color
-					});
-					setPixel(pixels_arr[i], pixels_arr[i + 1], color);
-					// if a 0,0 pixel is found, set its color to origin_color
-					if (!pixels_arr[i] && !pixels_arr[i + 1]) {
-						origin_color = color;
-					}
-				}
-			})
+		if (version === 2) {
+			data = atob(data);
+			data = pako.inflate(data, {
+				to: 'string'
+			});
 		}
+
+		data = data.split('x').filter(d => d);
+		data.forEach(dataPoint => {
+			dataPoint = dataPoint.split('-');
+			const color = hexToRgb('#' + dataPoint[0]);
+			let pixels_arr = dataPoint[1].split('z');
+			pixels_arr = pixels_arr.map(p => parseInt(p, version ? 36 : 10))
+			for (let i = 0; i < pixels_arr.length; i += 2) {
+				pixels.push({
+					x: pixels_arr[i],
+					y: pixels_arr[i + 1],
+					color
+				});
+				setPixel(pixels_arr[i], pixels_arr[i + 1], color);
+				// if a 0,0 pixel is found, set its color to origin_color
+				if (!pixels_arr[i] && !pixels_arr[i + 1]) {
+					origin_color = color;
+				}
+			}
+		})
 
 		generateCode();
 		canvasResize();
