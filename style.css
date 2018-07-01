@@ -101,7 +101,6 @@ p {
 	top: 0;
 	left: 0;
 	pointer-events: none;
-	z-index: 1;
 }
 
 .grid {
@@ -111,8 +110,8 @@ p {
 	bottom: 0;
 	right: 0;
 	background-size: 25px 25px;
-	background-image: linear-gradient(to right, #d1d1d1 1px, transparent 1px), linear-gradient(to bottom, #e3e3e3 1px, transparent 1px);
-	opacity: 0.2;
+	background-image: linear-gradient(to right, #111 1px, transparent 1px), linear-gradient(to bottom, #111 1px, transparent 1px);
+	opacity: 0.15;
 	pointer-events: none;
 }
 
