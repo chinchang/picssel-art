@@ -375,6 +375,10 @@ populate = e => {
 						color
 					});
 					setPixel(pixels_arr[i], pixels_arr[i + 1], color);
+					// if a 0,0 pixel is found, set its color to origin_color
+					if (!pixels_arr[i] && !pixels_arr[i + 1]) {
+						origin_color = color;
+					}
 				}
 			})
 		}
