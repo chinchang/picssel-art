@@ -43,6 +43,23 @@ p {
 	font-size: 1rem;
 }
 
+header {
+	display: flex;
+	justify-content: space-between;
+	box-sizing: border-box;
+	font-size: inherit;
+}
+.socialz {
+	display: flex;
+	align-items: center;
+}
+.ph-link {
+	display:inline-block;
+	margin-left: 10px;
+	color: #E93F00;
+	text-decoration: underline;
+}
+
 .left-sidebar,
 .right-sidebar {
 	padding: 2rem;
