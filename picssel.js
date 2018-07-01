@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 
-generateCode = throttle(() => {
+generateCode = () => {
 	if (!pixels.length) {
 		$('#css-code').innerHTML = renderStyles.textContent = '';
 		return;
@@ -96,7 +96,7 @@ generateCode = throttle(() => {
 
 	return $('#js-form-data').value = jsonString
 
-}, 50);
+};
 
 paletteClickHandler = e => {
 	if (e.target.classList.contains('palette-color')) {
