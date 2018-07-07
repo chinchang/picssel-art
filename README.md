@@ -24,10 +24,10 @@ Demo: [http://kushagragour.in/lab/picssel-art/](http://kushagragour.in/lab/picss
 
 Features
 -----
-🏞 Canvas and pixel sizeing option
-🌈 Color palette
-🏁 Grid option
-🤝 sharable URLs
+- 🏞 Canvas and pixel sizeing option
+- 🌈 Color palette
+- 🏁 Grid option
+- 🤝 sharable URLs
 
 License
 -------
