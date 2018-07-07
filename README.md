@@ -4,7 +4,6 @@ Create pixel art using only CSS
 --------
 
 
-
 What is it?
 -----------
 
@@ -23,15 +22,15 @@ Demo: [http://kushagragour.in/lab/picssel-art/](http://kushagragour.in/lab/picss
 
 [Tested on Google chrome 18 and Firefox 11]
 
+Features
+-----
+🏞 Canvas and pixel sizeing option
+🌈 Color palette
+🏁 Grid option
+🤝 sharable URLs
 
 License
 -------
 
 Licensed under The MIT License
-
-
-
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/chinchang/picssel-art/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
