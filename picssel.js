@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	showGridCheckbox.addEventListener('change', gridCheckboxHandler)
 	paletteEl.addEventListener('click', paletteClickHandler)
 	shareBtn.addEventListener('click', share);
-	SavePngBtn.addEventListener('click', saveImage);
+	savePngBtn.addEventListener('click', saveImage);
 
 	populate();
 
