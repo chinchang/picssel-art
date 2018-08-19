@@ -3,10 +3,10 @@ window.$ = document.querySelector.bind(document);
 var $canvas = null,
 	ctx = null,
 	$color_input = null,
-	pixel_size = 25,
+	pixel_size = 24,
 	pixels = [],
 	states = [],
-	undo_size = 45,
+	undo_size = 50,
 	canvas_size = 10,
 	canvas_size_range = {
 		min: 5,
@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	showGridCheckbox.addEventListener('change', gridCheckboxHandler)
 	paletteEl.addEventListener('click', paletteClickHandler)
 	shareBtn.addEventListener('click', share);
+	SavePngBtn.addEventListener('click', saveImage);
 
 	populate();
 
@@ -350,7 +351,9 @@ share = e => {
 		query += `${color}-${pixel_string}x`;
 	}
 	query = query.replace(/x$/, '');
-	query = btoa(pako.deflate(query, {to:'string'}));
+	query = btoa(pako.deflate(query, {
+		to: 'string'
+	}));
 
 	url += query;
 	url = encodeURIComponent(url)
@@ -405,4 +408,27 @@ function throttle(func, limit) {
 			setTimeout(() => inThrottle = false, limit)
 		}
 	}
+}
+
+function saveImage() {
+	pixels.forEach(p => {
+		ctx.fillStyle = p.color;
+		ctx.fillRect(p.x * pixel_size, p.y * pixel_size, pixel_size, pixel_size)
+	});
+	const anchor = document.createElement('a');
+	const d = new Date();
+	fileName = ['picssel-art-',
+		d.getFullYear(),
+		d.getMonth() + 1,
+		d.getDate(),
+		d.getHours(),
+		d.getMinutes(),
+		d.getSeconds()
+	].join('-');
+	anchor.download = `${fileName}.png`;
+	anchor.href = $canvas.toDataURL();
+	ctx.clearRect(0, 0, canvas_size * pixel_size, canvas_size * pixel_size)
+	document.body.appendChild(anchor);
+	anchor.click();
+	anchor.remove();
 }

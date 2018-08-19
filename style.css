@@ -49,12 +49,14 @@ header {
 	box-sizing: border-box;
 	font-size: inherit;
 }
+
 .socialz {
 	display: flex;
 	align-items: center;
 }
+
 .ph-link {
-	display:inline-block;
+	display: inline-block;
 	margin-left: 10px;
 	color: #E93F00;
 	text-decoration: underline;
@@ -106,6 +108,7 @@ header {
 	position: relative;
 	display: inline-block;
 	background: #333;
+	line-height: 0;
 }
 
 #c {
@@ -133,6 +136,7 @@ header {
 }
 
 pre {
+	font-size: 14px;
 	text-align: left;
 	background: #fff;
 	border-radius: 5px;
@@ -142,7 +146,7 @@ pre {
 }
 
 #css-code {
-	height: 300px;
+	height: 230px;
 }
 
 #main-container .help ul {

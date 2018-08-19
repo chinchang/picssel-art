@@ -1,13 +1,16 @@
+<!DOCTYPE html>
 <html>
 
 	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>piCSSel-art - Draw pixel art using CSS only!</title>
 		<meta name="description" content="piCSSel-art lets you draw pixel art using CSS only" />
 		<meta name="keywords" content="pixel,css,draw,art,coffeescript">
 		<meta name="author" content="Kushagra Gour" />
 
-		<link href="https://kushagragour.in/css/lab.css?v2" rel="stylesheet" type="text/css" />
-		<link href="style.css?v3" rel="stylesheet" type="text/css" />
+		<link href="https://kushagragour.in/css/lab.css?v3" rel="stylesheet" type="text/css" />
+		<link href="style.css?v4" rel="stylesheet" type="text/css" />
 		<link rel="image_src" href="ss.png" />
 
 		<script type="text/javascript">
@@ -51,7 +54,7 @@
 					<label class="d-b" for="pixelSizeSlider">Pixel size
 					</label>
 					<div class="flex ai-c">
-						<input type="range" value="5" step="5" min="5" max="25" id="pixelSizeSlider" />
+						<input type="range" value="4" step="1" min="1" max="24" id="pixelSizeSlider" />
 						<span id="pixelSizeEl"></span>
 					</div>
 				</div>
@@ -116,7 +119,8 @@
 					</form>
 					<!-- See your art on <a href="javascript:void(0)" target="blank" onclick="openOnCodepen()">Codepen.io</a>. -->
 
-					<button id="shareBtn" class="button button--full button--twitter">Share your art on Twitter</button>
+					<button type="button" id="shareBtn" class="button button--full button--twitter">Share your art on Twitter</button>
+					<button type="button" id="SavePngBtn" class="button button--full button--twitter">Save as .png file</button>
 				</section>
 			</div>
 		</div>
